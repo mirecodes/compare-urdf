@@ -1,0 +1,23 @@
+# compare-urdf 설정 파일
+#
+# 구조: data/{category}/{object}/gt|ours|aa/{object}.urdf
+#
+# categories:
+#   - name: 카테고리 폴더명 (data/ 하위)
+#     objects: 비교할 오브젝트 이름 목록 (urdf 파일명 = {object}.urdf)
+
+categories:
+  - name: cat1
+    objects:
+      - bucket
+      - fan
+      - globe
+      - microwave
+      - trashcan
+      - usb
+
+  # 예시 — 실제 데이터 추가 시 주석 해제
+  # - name: cat2
+  #   objects:
+  #     - microwave
+  #     - refrigerator

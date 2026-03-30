@@ -1,0 +1,3 @@
+# compare-urdf 의존 패키지
+numpy>=1.26
+pyyaml>=6.0
