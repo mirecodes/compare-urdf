@@ -73,46 +73,73 @@ def build_dataframe(summary: dict, methods: list[str]) -> pd.DataFrame:
     for obj_name, pred_dict in summary.items():
         for method in methods:
             joint_rows = pred_dict.get(method, [])
-            if not joint_rows:
-                continue
+    # 1~3. 일반 메트릭 (타입 불일치, 거리, 각도)
+    for obj_name, obj_data in summary.items():
+        # 요약 구조가 {"gt_joint_count": N, "predictors": {...}} 로 변경됨
+        predictors_data = obj_data.get("predictors", {})
+        for method in methods:
+            joint_rows = predictors_data.get(method, [])
             for jrow in joint_rows:
-                if not isinstance(jrow, dict):
-                    continue
-
-                gt_joint = jrow.get("joint_gt", "?")
-                type_match = bool(jrow.get("type_match", False))
-
-                # 1. Type Match
+                # Joint Type Match
                 rows.append({
                     "Method": method,
                     "Object": obj_name,
-                    "JointGT": gt_joint,
-                    "Metric": "Type Match Rate",
-                    "Value": 1 if type_match else 0,
+                    "JointGT": jrow.get("joint_gt", "unknown"),
+                    "Metric": "Joint Type Match Rate",
+                    "Value": 1.0 if jrow.get("type_match", False) else 0.0,
                     "Is_Prismatic": False,
                 })
 
-                # 2. Origin dist (type_match 여부와 무관하게 표시)
-                origin_val, is_prismatic = parse_value(jrow.get("origin_dist_m", np.nan))
-                rows.append({
-                    "Method": method,
-                    "Object": obj_name,
-                    "JointGT": gt_joint,
-                    "Metric": "Joint Origin Error (meters)",
-                    "Value": origin_val,
-                    "Is_Prismatic": is_prismatic,
-                })
+                # Origin Dist (NaN 제외)
+                dist_raw = jrow.get("origin_dist_m")
+                dist, is_p = parse_value(dist_raw)
+                if not np.isnan(dist):
+                    rows.append({
+                        "Method": method,
+                        "Object": obj_name,
+                        "JointGT": jrow.get("joint_gt", "unknown"),
+                        "Metric": "Joint Origin Error (m)",
+                        "Value": dist,
+                        "Is_Prismatic": is_p,
+                    })
 
-                # 3. Axis angle
-                axis_val, _ = parse_value(jrow.get("axis_angle_deg", np.nan))
-                rows.append({
-                    "Method": method,
-                    "Object": obj_name,
-                    "JointGT": gt_joint,
-                    "Metric": "Joint Axis Error (degrees)",
-                    "Value": axis_val,
-                    "Is_Prismatic": False,
-                })
+                # Axis Angle (NaN 제외)
+                angle_raw = jrow.get("axis_angle_deg")
+                angle, _ = parse_value(angle_raw)
+                if not np.isnan(angle):
+                    rows.append({
+                        "Method": method,
+                        "Object": obj_name,
+                        "JointGT": jrow.get("joint_gt", "unknown"),
+                        "Metric": "Joint Axis Error (deg)",
+                        "Value": angle,
+                        "Is_Prismatic": False,
+                    })
+
+    # 4. Joint Reconstruction Error Score (per object)
+    # 공식: (GT 조인트 총 개수) - (타입 일치하며 성공적으로 복원된 조인트 개수)
+    for obj_name, obj_data in summary.items():
+        gt_joint_count = obj_data.get("gt_joint_count", 0)
+        predictors_data = obj_data.get("predictors", {})
+        
+        for method in methods:
+            joint_rows = predictors_data.get(method, [])
+            
+            # 성공 개수 (type_match=True)
+            success_count = sum(1 for jrow in joint_rows if jrow.get("type_match", False))
+            
+            # 에러 점수 = (총 개수) - (성공 개수)
+            # 조인트를 하나도 못 찾았다면 gt_joint_count 만큼의 에러가 발생함
+            error_score = max(0, gt_joint_count - success_count)
+            
+            rows.append({
+                "Method": method,
+                "Object": obj_name,
+                "JointGT": "ALL",
+                "Metric": "Joint Reconstruction Error Score",
+                "Value": float(error_score),
+                "Is_Prismatic": False,
+            })
 
     return pd.DataFrame(rows)
 
@@ -143,7 +170,7 @@ def plot_metric(
 
     rng = np.random.default_rng(seed=42)
 
-    if metric_name == "Joint Origin Error (meters)":
+    if metric_name == "Joint Origin Error (m)":
         normal = subset[~subset["Is_Prismatic"]]
         prismatic = subset[subset["Is_Prismatic"]]
 
@@ -196,7 +223,7 @@ def plot_metric(
             )
 
     # Type Match 전용 y 범위
-    if metric_name == "Type Match Rate":
+    if metric_name == "Joint Type Match Rate":
         ax.set_ylim(-0.2, 1.2)
         ax.set_yticks([0, 1])
         ax.set_yticklabels(["Failure (0)", "Success (1)"])
@@ -223,8 +250,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--out-dir",
-        default=str(ROOT / "out"),
-        help="출력 디렉토리 (기본: out/)",
+        default=None,
+        help="출력 디렉토리 (기본: 리포트와 동일한 디렉토리)",
     )
     parser.add_argument(
         "--methods",
@@ -239,7 +266,12 @@ def main() -> None:
         print(f"[ERROR] 리포트 없음: {report_path}")
         sys.exit(1)
 
-    out_dir = Path(args.out_dir)
+    # 출력 디렉토리 결정
+    if args.out_dir:
+        out_dir = Path(args.out_dir)
+    else:
+        out_dir = report_path.parent
+
     out_dir.mkdir(parents=True, exist_ok=True)
 
     with report_path.open("r", encoding="utf-8") as f:
@@ -255,10 +287,18 @@ def main() -> None:
         methods = args.methods
     else:
         methods_set: set[str] = set()
-        for pred_dict in summary.values():
-            if isinstance(pred_dict, dict):
-                methods_set.update(pred_dict.keys())
-        methods = sorted(methods_set)
+        methods = []
+        if summary:
+            first_obj = next(iter(summary.keys()))
+            obj_data = summary[first_obj]
+            if isinstance(obj_data, dict) and "predictors" in obj_data:
+                methods = list(obj_data["predictors"].keys())
+            else:
+                # 하위 호환성 (구조가 안 바뀐 경우 대비)
+                methods = list(obj_data.keys())
+        
+        # "gt_joint_count" 등 특수 키 제외 (필요 시)
+        methods = [m for m in methods if m not in ["gt_joint_count", "predictors"]]
 
     print(f"\n  Detected methods: {methods}")
     print(f"  Objects: {list(summary.keys())}\n")
@@ -269,22 +309,28 @@ def main() -> None:
 
     plot_configs = [
         {
-            "metric": "Type Match Rate",
+            "metric": "Joint Type Match Rate",
             "filename": "multi_type_match.png",
             "title": "Joint Type Match Rate",
             "ylabel": "Success (1) / Failure (0)",
         },
         {
-            "metric": "Joint Origin Error (meters)",
+            "metric": "Joint Origin Error (m)",
             "filename": "multi_origin_dist.png",
             "title": "Joint Origin Position Error",
-            "ylabel": "Error (meters)",
+            "ylabel": "Error (m)",
         },
         {
-            "metric": "Joint Axis Error (degrees)",
+            "metric": "Joint Axis Error (deg)",
             "filename": "multi_axis_angle.png",
             "title": "Joint Axis Orientation Error",
-            "ylabel": "Error (degrees)",
+            "ylabel": "Error (deg)",
+        },
+        {
+            "metric": "Joint Reconstruction Error Score",
+            "filename": "multi_error_score.png",
+            "title": "Joint Reconstruction Error Score (per object)",
+            "ylabel": "Total Errors (lower is better)",
         },
     ]
 

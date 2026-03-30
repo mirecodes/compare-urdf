@@ -1,0 +1,103 @@
+# mapping_template.yml  — joint_pairs 없는 템플릿 (autofill_mapping.py 테스트용)
+
+toilet:
+  gt:
+    urdf_path: "../data/cat2/gt/toilet.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat2/aa/toilet.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat2/screw/toilet.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat2/ours/toilet.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+faucet:
+  gt:
+    urdf_path: "../data/cat2/gt/faucet.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat2/aa/faucet.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat2/screw/faucet.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat2/ours/faucet.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+folding_chair:
+  gt:
+    urdf_path: "../data/cat2/gt/folding_chair.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat2/aa/folding_chair.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat2/screw/folding_chair.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat2/ours/folding_chair.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+box:
+  gt:
+    urdf_path: "../data/cat2/gt/box.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat2/aa/box.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat2/screw/box.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat2/ours/box.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+refrigerator:
+  gt:
+    urdf_path: "../data/cat2/gt/refrigerator.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat2/aa/refrigerator.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat2/screw/refrigerator.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat2/ours/refrigerator.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+toaster:
+  gt:
+    urdf_path: "../data/cat2/gt/toaster.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat2/aa/toaster.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat2/screw/toaster.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat2/ours/toaster.urdf"
+    z_rotation: 0
+    joint_pairs: null

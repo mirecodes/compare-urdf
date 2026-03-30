@@ -1,0 +1,16 @@
+toilet:
+  gt:
+    urdf_path: "../data/cat2/gt/toilet.urdf"
+    z_rotation: 0
+  ours_no_offset:
+    urdf_path: "../data/cat2/ours/toilet.urdf"
+    z_rotation: 0
+    joint_pairs:
+      joint_1: joint_1_2
+      joint_2: joint_1_3
+  ours_with_offset:
+    urdf_path: "../data/cat2/ours/toilet.urdf"
+    z_rotation: 0
+    joint_pairs:
+      joint_1: { name: joint_1_2, offset: 90.0 }
+      joint_2: joint_1_3

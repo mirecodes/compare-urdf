@@ -1,0 +1,628 @@
+meta:
+  generated_at: '2026-03-30T10:17:39.823752+00:00'
+  mapping: cfgs/mapping_autofilled.yml
+summary:
+  toilet:
+    gt_joint_count: 4
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.1255
+        axis_angle_deg: 0.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0032
+        axis_angle_deg: 2.36
+      - type_match: true
+        origin_dist_m: 0.0308
+        axis_angle_deg: 2.36
+      - type_match: true
+        origin_dist_m: (0.0927)
+        axis_angle_deg: 0.43
+  faucet:
+    gt_joint_count: 3
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.2391
+        axis_angle_deg: 90.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.01
+        axis_angle_deg: 1.54
+      - type_match: true
+        origin_dist_m: 0.0175
+        axis_angle_deg: 6.72
+      - type_match: true
+        origin_dist_m: 0.0018
+        axis_angle_deg: 2.55
+  folding_chair:
+    gt_joint_count: 2
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.5622
+        axis_angle_deg: 0.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0039
+        axis_angle_deg: 0.33
+      - type_match: true
+        origin_dist_m: 0.0161
+        axis_angle_deg: 0.69
+  box:
+    gt_joint_count: 4
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.1184
+        axis_angle_deg: 0.0
+      - type_match: true
+        origin_dist_m: 0.2694
+        axis_angle_deg: 90.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0164
+        axis_angle_deg: 0.06
+      - type_match: true
+        origin_dist_m: 0.0124
+        axis_angle_deg: 0.15
+      - type_match: true
+        origin_dist_m: 0.0233
+        axis_angle_deg: 0.09
+      - type_match: true
+        origin_dist_m: 0.0309
+        axis_angle_deg: 1.33
+  refrigerator:
+    gt_joint_count: 2
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.4583
+        axis_angle_deg: 0.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0153
+        axis_angle_deg: 0.03
+      - type_match: true
+        origin_dist_m: 0.0304
+        axis_angle_deg: 2.11
+  toaster:
+    gt_joint_count: 2
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: (0.0000)
+        axis_angle_deg: 0.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0072
+        axis_angle_deg: 1.54
+      - type_match: true
+        origin_dist_m: (0.7363)
+        axis_angle_deg: 0.51
+details:
+  toilet:
+    aa:
+    - joint_name_gt: joint_1
+      joint_name_pred: seat_to_lid
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.039362501568393805
+      - -1.5070204141621548e-17
+      - 0.08623833640126834
+      origin_pred_xyz:
+      - -0.08330599898099955
+      - -0.31934799933433533
+      - 0.05950497668981593
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - -1.0
+      - 2.2440784777419078e-31
+      axis_dot_abs: 1.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.039362501568393805
+      - -1.5070204141621548e-17
+      - 0.08623833640126834
+      origin_pred_xyz:
+      - 0.0423056701
+      - -0.000213782705
+      - 0.0876036963
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.015925486405199495
+      - -0.9991509033262117
+      - -0.037998042912405945
+      axis_dot_abs: 0.999151
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_1_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.039362501568393805
+      - -1.5070204141621548e-17
+      - 0.08623833640126834
+      origin_pred_xyz:
+      - 0.0700806833
+      - 0.00585808732
+      - 0.0880001275
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.015925486405199495
+      - -0.9991509033262117
+      - -0.037998042912405945
+      axis_dot_abs: 0.999151
+      notes: []
+    - joint_name_gt: joint_3
+      joint_name_pred: joint_1_4
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.5060995377345116
+      - 0.05232203870557292
+      - 0.7277991002285855
+      origin_pred_xyz:
+      - 0.426424517
+      - -0.000165591769
+      - 0.618794232
+      axis_gt_xyz:
+      - 0.02642116669685499
+      - 0.005104721319804242
+      - 0.9996378663149093
+      axis_pred_xyz:
+      - -0.022216106090089605
+      - 0.00106128672952657
+      - -0.9997526285540198
+      axis_dot_abs: 0.999972
+      notes: []
+  faucet:
+    aa:
+    - joint_name_gt: joint_0
+      joint_name_pred: faucet_base_to_spout
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.18586969420261676
+      - -7.116148933032624e-17
+      - -0.40516169420261655
+      origin_pred_xyz:
+      - 0.34355899691581715
+      - 0.004660999402403658
+      - -0.22541399574279772
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 0.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.18586969420261676
+      - -7.116148933032624e-17
+      - -0.40516169420261655
+      origin_pred_xyz:
+      - 0.175869532
+      - 0.294052897
+      - -0.405940895
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.026005643800915423
+      - -0.9996405240351883
+      - -0.006521441340229561
+      axis_dot_abs: 0.999641
+      notes: []
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1_3
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.1858696942026168
+      - -7.116148933032625e-17
+      - -0.40516169420261655
+      origin_pred_xyz:
+      - 0.203196382
+      - -0.285313708
+      - -0.40784755
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.11625946998210111
+      - 0.9931223218471024
+      - -0.013848808197867888
+      axis_dot_abs: 0.993122
+      notes: []
+    - joint_name_gt: joint_3
+      joint_name_pred: joint_1_4
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.18586980870379802
+      - 0.0015881912962019008
+      - 7.11615331678901e-17
+      origin_pred_xyz:
+      - 0.184883707
+      - 8.19395484e-05
+      - -0.17917893
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 0.04293665800741278
+      - -0.011893905902053418
+      - -0.9990069961724731
+      axis_dot_abs: 0.999007
+      notes: []
+  folding_chair:
+    aa:
+    - joint_name_gt: joint_0
+      joint_name_pred: chair_leg_to_seat
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.029398859262694955
+      - 1.1255555235731253e-17
+      - 0.01915017226644359
+      origin_pred_xyz:
+      - -0.4283710041046148
+      - -0.5207340040206911
+      - -0.3769639906883238
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - -1.0
+      - 2.2440784777419078e-31
+      axis_dot_abs: 1.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_3_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.029398859262694955
+      - 1.1255555235731253e-17
+      - 0.01915017226644359
+      origin_pred_xyz:
+      - -0.02733539318
+      - -0.3863196763
+      - 0.022458155599999998
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.0043974992119655935
+      - 0.9999838034469727
+      - 0.003613148821615005
+      axis_dot_abs: 0.999984
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_1_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.029398859262694955
+      - 1.1255555235731253e-17
+      - 0.01915017226644359
+      origin_pred_xyz:
+      - -0.0232802673
+      - -0.417991665
+      - 0.0340448326
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.01196337000383049
+      - 0.999928374320162
+      - 0.0003521471131127522
+      axis_dot_abs: 0.999928
+      notes: []
+  box:
+    aa:
+    - joint_name_gt: joint_1
+      joint_name_pred: box_body_to_lid_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.02633372691437207
+      - 0.48697599999999985
+      - 0.17569499999999982
+      origin_pred_xyz:
+      - 0.4240290136337275
+      - 0.43080900001525857
+      - 0.2799790027141574
+      axis_gt_xyz:
+      - -1.0
+      - 3.8285686989269494e-16
+      - -3.8285686989269494e-16
+      axis_pred_xyz:
+      - -1.0
+      - 6.123233995736767e-17
+      - -6.123233995736767e-17
+      axis_dot_abs: 1.0
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: box_body_to_lid
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.460907
+      - 0.05794596831251137
+      - 0.1756949999999995
+      origin_pred_xyz:
+      - -0.7092969803810125
+      - -0.4176949946880339
+      - 0.2799790027141573
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - 1.0
+      - -6.123233995736767e-17
+      - 6.123233995736767e-17
+      axis_dot_abs: 0.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_1_5
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.46634899999999974
+      - -0.22824362703686701
+      - 0.17569499999999968
+      origin_pred_xyz:
+      - 0.478248808
+      - 0.0245179094
+      - 0.18704289
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.0003276513630373114
+      - 0.9999993841138752
+      - 0.0010603850501207518
+      axis_dot_abs: 0.999999
+      notes: []
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.02633372691437207
+      - 0.48697599999999985
+      - 0.17569499999999982
+      origin_pred_xyz:
+      - -0.00778515111
+      - 0.496406082
+      - 0.183755099
+      axis_gt_xyz:
+      - -1.0
+      - 3.8285686989269494e-16
+      - -3.8285686989269494e-16
+      axis_pred_xyz:
+      - -0.9999965316765932
+      - -0.0010237055096689255
+      - 0.0024266565092151996
+      axis_dot_abs: 0.999997
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_1_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.460907
+      - 0.05794596831251137
+      - 0.1756949999999995
+      origin_pred_xyz:
+      - -0.48004269
+      - 0.0142718519
+      - 0.188925367
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.0008661847918783119
+      - 0.9999987428595128
+      - -0.0013281578598134105
+      axis_dot_abs: 0.999999
+      notes: []
+    - joint_name_gt: joint_3
+      joint_name_pred: joint_1_4
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.09461069595392692
+      - -0.44027999999999995
+      - 0.1756950000000002
+      origin_pred_xyz:
+      - -0.00473737675
+      - -0.470997736
+      - 0.179167553
+      axis_gt_xyz:
+      - 1.0
+      - -3.8285686989269494e-16
+      - 3.8285686989269494e-16
+      axis_pred_xyz:
+      - -0.9997296700740944
+      - 0.02300485230170499
+      - 0.0033709856302498384
+      axis_dot_abs: 0.99973
+      notes: []
+  refrigerator:
+    aa:
+    - joint_name_gt: joint_2
+      joint_name_pred: furniture_body_to_door
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.19533683083987122
+      - 0.4434867707409101
+      - 0.811119
+      origin_pred_xyz:
+      - 0.24479700350761485
+      - 0.5710790076255797
+      - -0.8103809871673583
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 1.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.21105892222321426
+      - -0.4963420826169706
+      - 0.811119
+      origin_pred_xyz:
+      - -0.226081883
+      - -0.499229127
+      - 0.019358677
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -2.793927571242403e-05
+      - -0.0005606514182493103
+      - -0.9999998424446797
+      axis_dot_abs: 1.0
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_1_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.19533683083987122
+      - 0.4434867707409101
+      - 0.811119
+      origin_pred_xyz:
+      - -0.223171178
+      - 0.455642912
+      - 0.0114649918
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - -0.0009491888946739267
+      - 0.03676403278737051
+      - -0.9993235236567041
+      axis_dot_abs: 0.999324
+      notes: []
+  toaster:
+    aa:
+    - joint_name_gt: joint_1
+      joint_name_pred: toaster_body_to_slider
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      origin_pred_xyz:
+      - 3.0616169978683824e-18
+      - -1.5471010462796244e-33
+      - -0.05
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 1.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_1_3
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.15914584524660266
+      - -0.007537775917565657
+      - -0.38942381371309287
+      origin_pred_xyz:
+      - -0.739986182
+      - -0.00422029651
+      - -0.158946904
+      axis_gt_xyz:
+      - -0.9256834237749085
+      - 3.5440425813801455e-16
+      - 0.378299086634323
+      axis_pred_xyz:
+      - 0.9349960967196753
+      - 0.008631618657412122
+      - -0.3545529498937001
+      axis_dot_abs: 0.999637
+      notes: []
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1_2
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      origin_pred_xyz:
+      - -0.719563943
+      - 0.155913512
+      - 0.437584702
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - -0.007045131653070803
+      - 0.005555324322421432
+      - -0.9999597514358584
+      axis_dot_abs: 0.99996
+      notes: []

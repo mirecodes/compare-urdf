@@ -1,0 +1,10 @@
+toilet:
+  gt:
+    urdf_path: "../data/cat2/gt/toilet.urdf"
+    z_rotation: 0
+  aa_error:
+    urdf_path: "../data/cat2/aa/toilet.urdf"
+    z_rotation: 0
+    joint_pairs:
+      joint_0: non_existent_joint  # 존재하지 않는 조인트 -> 에러 (+1)
+      joint_1: seat_to_lid        # 존재하는 조인트 -> 성공 (0)

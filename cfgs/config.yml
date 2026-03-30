@@ -15,6 +15,20 @@ categories:
       - microwave
       - trashcan
       - usb
+  - name: cat2
+    objects:
+      - toilet
+      - faucet
+      - folding_chair
+      - box
+      - refrigerator
+      - toaster
+  - name: cat3
+    objects:
+      - lamp
+      - dispenser
+      - safe
+      - stapler
 
   # 예시 — 실제 데이터 추가 시 주석 해제
   # - name: cat2

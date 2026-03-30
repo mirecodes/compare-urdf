@@ -1,103 +1,55 @@
 """
 run_multi_compare.py
---------------------
-mapping.yml 을 읽어 여러 object/joint 를 일괄 비교하고 YAML 리포트를 out/ 에 저장한다.
-
-사용법:
-  python scripts/run_multi_compare.py --mapping cfgs/mapping.yml
-  python scripts/run_multi_compare.py --mapping cfgs/mapping.yml --no-save
-
-리포트 구조 (out/multi_report.yml):
-  meta:
-    generated_at: ...
-    mapping: cfgs/mapping.yml
-  summary:
-    {object}:
-      {predictor}:
-        - joint_gt: ...
-          joint_pred: ...
-          type_match: bool
-          origin_dist_m: float
-          axis_angle_deg: float
-  details:
-    {object}:
-      {predictor}:
-        - joint_name_gt: ...
-          joint_name_pred: ...
-          type_gt: ...
-          type_pred: ...
-          origin_gt_xyz: [x, y, z]
-          origin_pred_xyz: [x, y, z]
-          axis_gt_xyz: [x, y, z]
-          axis_pred_xyz: [x, y, z]
-          axis_dot_abs: float
-          notes: [...]
+-------------------
+URDF 멀티 조인트 비교 실행 스크립트.
 """
 
-from __future__ import annotations
-
 import argparse
-import math
 import sys
-from datetime import datetime, timezone
+import math
 from pathlib import Path
+from datetime import datetime, timezone
 
 import yaml
 
+# 스크립트 경로 추가
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from compare_urdf import (  # noqa: E402
-    result_to_summary_dict,
-    result_to_detail_dict,
-)
-from compare_multi_joint import (  # noqa: E402
-    parse_mapping_yml,
-    compare_by_mapping,
-)
+from compare_urdf import ComparisonResult
+from compare_multi_joint import parse_mapping_yml, compare_by_mapping
 
 
-# ---------------------------------------------------------------------------
-# 결과 직렬화
-# ---------------------------------------------------------------------------
-
-def _result_to_summary_row(r) -> dict:
-    """ComparisonResult → summary 행 dict."""
-    row = {
-        "joint_gt": r.joint_name_gt,
-        "joint_pred": r.joint_name_pred,
-    }
-    row.update(result_to_summary_dict(r))
-    return row
+def _result_to_summary_row(r: ComparisonResult) -> dict:
+    """YAML 상단 요약용 데이터 변환."""
+    from compare_urdf import result_to_summary_dict
+    return result_to_summary_dict(r)
 
 
-def _result_to_detail_row(r) -> dict:
-    """ComparisonResult → detail 행 dict."""
+def _result_to_detail_row(r: ComparisonResult) -> dict:
+    """YAML 하단 상세용 데이터 변환."""
+    from compare_urdf import result_to_detail_dict
     return result_to_detail_dict(r)
 
 
-# ---------------------------------------------------------------------------
-# 메인
-# ---------------------------------------------------------------------------
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Multi-joint URDF 비교 — mapping.yml 기반")
-    parser.add_argument(
-        "--mapping", "-m",
-        default=str(ROOT / "cfgs" / "mapping.yml"),
-        help="mapping 파일 경로 (기본: cfgs/mapping.yml)",
-    )
-    parser.add_argument(
-        "--no-save",
-        action="store_true",
-        help="결과를 파일에 저장하지 않음 (터미널 출력만)",
-    )
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mapping", required=True, help="YAML 매핑 파일 경로")
+    parser.add_argument("--category", help="카테고리 이름 (출력 경로 자동 설정용)")
+    parser.add_argument("--no-save", action="store_true", help="파일 저장 안함")
     parser.add_argument(
         "--out",
-        default=str(ROOT / "out" / "multi_report.yml"),
-        help="출력 YAML 경로 (기본: out/multi_report.yml)",
+        help="출력 YAML 경로 (기본: out/multi_report.yml 또는 out/{category}/multi_report.yml)",
     )
     args = parser.parse_args()
+
+    # 출력 경로 결정
+    if args.out:
+        out_path = Path(args.out)
+    elif args.category:
+        out_path = ROOT / "out" / args.category / "multi_report.yml"
+    else:
+        out_path = ROOT / "out" / "multi_report.yml"
 
     mapping_path = Path(args.mapping)
     if not mapping_path.exists():
@@ -111,7 +63,6 @@ def main() -> None:
 
     # mapping.yml 파싱
     object_mappings = parse_mapping_yml(mapping_path)
-
     if not object_mappings:
         print("[ERROR] 유효한 object mapping 이 없습니다.")
         sys.exit(1)
@@ -138,7 +89,22 @@ def main() -> None:
             obj_summary[pred_name] = [_result_to_summary_row(r) for r in pair_results]
             obj_detail[pred_name]  = [_result_to_detail_row(r)  for r in pair_results]
 
-        summary_section[obj_name] = obj_summary
+            # CLI 상세 출력
+            for r in pair_results:
+                icon = "✔" if r.type_match else "✘"
+                dist_val = r.origin_dist_m
+                dist_str = f"{dist_val:.4f}m" if not math.isnan(dist_val) else "N/A"
+                if r.type_gt == "prismatic":
+                    dist_str = f"({dist_str})"
+                angle_str = f"{r.axis_angle_deg:.2f}°" if not math.isnan(r.axis_angle_deg) else "N/A"
+                
+                print(f"  [{pred_name}] {r.joint_name_gt} ↔ {r.joint_name_pred}  "
+                      f"type={icon}  dist={dist_str:s}  angle={angle_str:s}")
+
+        summary_section[obj_name] = {
+            "gt_joint_count": obj_map.gt.joint_count,
+            "predictors": obj_summary
+        }
         detail_section[obj_name]  = obj_detail
 
     if args.no_save:
@@ -146,7 +112,6 @@ def main() -> None:
         return
 
     # YAML 리포트 저장
-    out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     report = {

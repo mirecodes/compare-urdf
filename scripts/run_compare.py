@@ -202,7 +202,8 @@ def main() -> None:
             "details": detail_section,
         }
 
-        out_path = out_dir / f"{category}_report.yml"
+        out_path = out_dir / category / "report.yml"
+        out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             yaml.dump(
                 report,

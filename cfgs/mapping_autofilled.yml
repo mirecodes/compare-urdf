@@ -1,0 +1,119 @@
+toilet:
+  gt:
+    urdf_path: ../data/cat2/gt/toilet.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat2/aa/toilet.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_1: seat_to_lid
+  ss:
+    urdf_path: ../data/cat2/ss/toilet.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat2/ours/toilet.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_1: joint_1_2
+      joint_2: joint_1_3
+      joint_3: joint_1_4
+faucet:
+  gt:
+    urdf_path: ../data/cat2/gt/faucet.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat2/aa/faucet.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: faucet_base_to_spout
+  ss:
+    urdf_path: ../data/cat2/ss/faucet.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat2/ours/faucet.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+      joint_1: joint_1_3
+      joint_3: joint_1_4
+folding_chair:
+  gt:
+    urdf_path: ../data/cat2/gt/folding_chair.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat2/aa/folding_chair.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: chair_leg_to_seat
+  ss:
+    urdf_path: ../data/cat2/ss/folding_chair.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat2/ours/folding_chair.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_3_2
+      joint_2: joint_1_3
+box:
+  gt:
+    urdf_path: ../data/cat2/gt/box.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat2/aa/box.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_1: box_body_to_lid_2
+      joint_2: box_body_to_lid
+  ss:
+    urdf_path: ../data/cat2/ss/box.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat2/ours/box.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_5
+      joint_1: joint_1_2
+      joint_2: joint_1_3
+      joint_3: joint_1_4
+refrigerator:
+  gt:
+    urdf_path: ../data/cat2/gt/refrigerator.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat2/aa/refrigerator.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_2: furniture_body_to_door
+  ss:
+    urdf_path: ../data/cat2/ss/refrigerator.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat2/ours/refrigerator.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_1: joint_1_2
+      joint_2: joint_1_3
+toaster:
+  gt:
+    urdf_path: ../data/cat2/gt/toaster.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat2/aa/toaster.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_1: toaster_body_to_slider
+  ss:
+    urdf_path: ../data/cat2/ss/toaster.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat2/ours/toaster.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_3
+      joint_1: joint_1_2
