@@ -1,6 +1,6 @@
 meta:
-  generated_at: '2026-03-30T10:26:59.827940+00:00'
-  mapping: cfgs/mapping_autofilled.yml
+  generated_at: '2026-03-30T10:42:47.507296+00:00'
+  mapping: cfgs/mapping.yml
 summary:
   toilet:
     gt_joint_count: 4
@@ -101,6 +101,68 @@ summary:
       - type_match: true
         origin_dist_m: (0.7363)
         axis_angle_deg: 0.51
+  lamp:
+    gt_joint_count: 3
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 1.0157
+        axis_angle_deg: 90.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0243
+        axis_angle_deg: 0.57
+      - type_match: true
+        origin_dist_m: 0.0486
+        axis_angle_deg: 0.56
+      - type_match: true
+        origin_dist_m: 0.0057
+        axis_angle_deg: 1.0
+  dispenser:
+    gt_joint_count: 3
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.3188
+        axis_angle_deg: 0.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0827
+        axis_angle_deg: 0.92
+      - type_match: true
+        origin_dist_m: 0.0037
+        axis_angle_deg: 0.38
+      - type_match: true
+        origin_dist_m: (0.0085)
+        axis_angle_deg: 1.19
+  safe:
+    gt_joint_count: 2
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 0.8299
+        axis_angle_deg: 0.0
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0064
+        axis_angle_deg: 0.4
+      - type_match: true
+        origin_dist_m: 0.0059
+        axis_angle_deg: 1.39
+  stapler:
+    gt_joint_count: 2
+    predictors:
+      aa:
+      - type_match: true
+        origin_dist_m: 5.1331
+        axis_angle_deg: 0.18
+      ours:
+      - type_match: true
+        origin_dist_m: 0.0859
+        axis_angle_deg: 1.75
+      - type_match: true
+        origin_dist_m: 0.0049
+        axis_angle_deg: 0.33
 details:
   toilet:
     aa:
@@ -625,4 +687,324 @@ details:
       - 0.005555324322421432
       - -0.9999597514358584
       axis_dot_abs: 0.99996
+      notes: []
+  lamp:
+    aa:
+    - joint_name_gt: joint_3
+      joint_name_pred: bar_2_to_head
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.6879391809403903
+      - 0.008435671269893167
+      - 2.633822414913821e-16
+      origin_pred_xyz:
+      - 0.9531519799232482
+      - -0.9720350007563833
+      - -0.48480003523826615
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 6.123233995736767e-17
+      - 1.0
+      - -2.2440784777419078e-31
+      axis_dot_abs: 0.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_3_4
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.5857149599509236
+      - 2.255140518769849e-16
+      - 0.5613646043317656
+      origin_pred_xyz:
+      - -0.602762058
+      - -0.0020667685249999997
+      - 0.5787451021000001
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.007730931103840759
+      - 0.9999499164967793
+      - 0.006355879353157627
+      axis_dot_abs: 0.99995
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_2_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.309058977629023
+      - 0.0215559999999999
+      - 0.43906678454377623
+      origin_pred_xyz:
+      - 0.29217408999999994
+      - 0.002365809375
+      - 0.4845973950000001
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.005784073559803359
+      - 0.9999520299660046
+      - 0.00790457208973127
+      axis_dot_abs: 0.999952
+      notes: []
+    - joint_name_gt: joint_3
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.6879391809403903
+      - 0.008435671269893167
+      - 2.633822414913821e-16
+      origin_pred_xyz:
+      - 0.687455089
+      - 0.00273809246
+      - -0.506032737
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 0.012197767199281737
+      - 0.01248949029926456
+      - -0.9998476019411243
+      axis_dot_abs: 0.999848
+      notes: []
+  dispenser:
+    aa:
+    - joint_name_gt: joint_0
+      joint_name_pred: bottle_body_to_lid
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.21560559471696825
+      - -0.06564000000000006
+      - 0.7480250199354567
+      origin_pred_xyz:
+      - -0.3859409906864171
+      - 0.05555000156164177
+      - 1.017549957752228
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - -1.0
+      - 2.2440784777419078e-31
+      axis_dot_abs: 1.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_3_4
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.21560559471696825
+      - -0.06564000000000006
+      - 0.7480250199354567
+      origin_pred_xyz:
+      - -0.1331481371
+      - 0.004298575361
+      - 0.7540457805
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.007313579842487773
+      - -0.9998723903401147
+      - 0.014202626004831137
+      axis_dot_abs: 0.999872
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_1_2
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.009361512548889847
+      - 0.005049492066330295
+      - 3.58411939192915e-18
+      origin_pred_xyz:
+      - 0.0126322422
+      - 0.00322829818
+      - 0.234629657
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 0.00248929231054569
+      - -0.006134859821344852
+      - -0.99997808321921
+      axis_dot_abs: 0.999978
+      notes: []
+    - joint_name_gt: joint_3
+      joint_name_pred: joint_2_3
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.009361512548889847
+      - 0.005049492066330295
+      - 3.58411939192915e-18
+      origin_pred_xyz:
+      - 0.0009141928999999993
+      - 0.0046343758
+      - 0.2881592215
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -0.01751815549195456
+      - 0.011205016094853953
+      - -0.9997837575408365
+      axis_dot_abs: 0.999784
+      notes: []
+  safe:
+    aa:
+    - joint_name_gt: joint_0
+      joint_name_pred: safe_body_to_door
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.2703230189425104
+      - -0.3841989999999996
+      - 0.05941698257403372
+      origin_pred_xyz:
+      - 0.5435839834213261
+      - -0.22205599331855821
+      - -0.4726099886894225
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 6.123233995736767e-17
+      - -3.0942020925592465e-32
+      - -1.0
+      axis_dot_abs: 1.0
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.2703230189425104
+      - -0.3841989999999996
+      - 0.05941698257403372
+      origin_pred_xyz:
+      - -0.276042128
+      - -0.381241422
+      - 0.0189477574
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -0.00034567045512014943
+      - 0.00703044828244367
+      - 0.9999752263475752
+      axis_dot_abs: 0.999975
+      notes: []
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_2_3
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.6601749109882954
+      - -0.19595986823071146
+      - 0.05074050593741269
+      origin_pred_xyz:
+      - -0.627862795
+      - -0.16029981799999998
+      - 0.0565293282
+      axis_gt_xyz:
+      - 0.6896179012256609
+      - 0.7241734255745835
+      - 8.294055944957198e-07
+      axis_pred_xyz:
+      - 0.7069479397164701
+      - 0.707264480716343
+      - -0.0012509387194982958
+      axis_dot_abs: 0.999706
+      notes: []
+  stapler:
+    aa:
+    - joint_name_gt: joint_0
+      joint_name_pred: stapler_body_to_lid
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.8261624493028051
+      - -0.0024631647518306636
+      - 0.06443583799592406
+      origin_pred_xyz:
+      - -4.270244975090027
+      - -0.1263360002040864
+      - 0.6803200094848878
+      axis_gt_xyz:
+      - -0.0030601326181037354
+      - -0.9999948087568121
+      - 0.0010089835413171439
+      axis_pred_xyz:
+      - 6.123233995736767e-17
+      - 1.0
+      - -2.2440784777419078e-31
+      axis_dot_abs: 0.999995
+      notes: []
+    ours:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_2_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.8261624493028051
+      - -0.0024631647518306636
+      - 0.06443583799592406
+      origin_pred_xyz:
+      - 0.898090191829038
+      - -0.001167744416559634
+      - 0.01749344617198146
+      axis_gt_xyz:
+      - -0.0030601326181037354
+      - -0.9999948087568121
+      - 0.0010089835413171439
+      axis_pred_xyz:
+      - 0.00548590322028218
+      - -0.9995831323264673
+      - -0.028345483489715925
+      axis_dot_abs: 0.999533
+      notes: []
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.8261624493028051
+      - -0.0024631647518306636
+      - 0.06443583799592406
+      origin_pred_xyz:
+      - 0.822956478
+      - -0.00295662438
+      - 0.0607909662
+      axis_gt_xyz:
+      - 0.0030601326181037354
+      - 0.9999948087568121
+      - -0.0010089835413171439
+      axis_pred_xyz:
+      - 0.0017207719897237494
+      - -0.999995783839462
+      - -0.0023390696996244886
+      axis_dot_abs: 0.999983
       notes: []

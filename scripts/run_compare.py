@@ -8,10 +8,6 @@ YAML 리포트를 out/ 에 저장한다.
   python scripts/run_compare.py                        # cfgs/config.yml 기본
   python scripts/run_compare.py --config cfgs/other.yml
   python scripts/run_compare.py --no-save              # 터미널 출력만
-
-리포트 구조 (out/{category}_report.yml):
-  [상단] summary  — type_match / origin_l2_m / axis_angle_deg
-  [하단] details  — joint 이름, xyz 좌표, dot 등 전체 정보
 """
 
 from __future__ import annotations
@@ -22,6 +18,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 import yaml  # pyyaml
+import yourdfpy
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -31,6 +28,7 @@ from compare_urdf import (  # noqa: E402
     result_to_summary_dict,
     result_to_detail_dict,
     print_result,
+    MOVABLE_TYPES,
 )
 
 PREDICTORS = ["ours", "aa", "screw"]  # GT 와 비교할 대상 폴더 목록
@@ -67,18 +65,6 @@ def compare_object(
 ) -> dict:
     """
     GT vs {ours, aa} 비교를 수행하고 리포트용 dict 를 반환한다.
-
-    디렉토리 구조:
-      data/{category}/gt/{obj}.urdf
-      data/{category}/ours/{obj}.urdf
-      data/{category}/aa/{obj}.urdf
-
-    반환 구조:
-      {
-        "object": obj,
-        "summary": { "ours": {...}, "aa": {...} },
-        "details": { "ours": {...}, "aa": {...} },
-      }
     """
     base = ROOT / "data" / category   # data/{category}/
 
@@ -87,7 +73,16 @@ def compare_object(
         raise FileNotFoundError(f"GT 폴더 없음: {gt_dir}")
 
     gt_urdf = find_urdf(gt_dir, obj)
-    print(f"\n  ▷ {category}/{obj}  |  GT: {gt_urdf.name}")
+    
+    # GT movable joint 총 개수 파악
+    gt_joint_count = 0
+    try:
+        model = yourdfpy.URDF.load(str(gt_urdf))
+        gt_joint_count = sum(1 for j in model.joint_map.values() if j.type in MOVABLE_TYPES)
+    except Exception as e:
+        print(f"  [WARN] GT URDF 로드 실패 (개수 파악 불가): {e}")
+
+    print(f"\n  ▷ {category}/{obj}  |  GT: {gt_urdf.name} (joints={gt_joint_count})")
 
     summary_block: dict = {}
     detail_block: dict = {}
@@ -95,13 +90,11 @@ def compare_object(
     for pred in PREDICTORS:
         pred_dir = base / pred
         if not pred_dir.exists():
-            print(f"  [SKIP] {pred}/ 폴더 없음: {pred_dir}")
             continue
 
         try:
             pred_urdf = find_urdf(pred_dir, obj)
-        except FileNotFoundError as e:
-            print(f"  [SKIP] {e}")
+        except FileNotFoundError:
             continue
 
         result = compare_urdf_files(gt_urdf, pred_urdf)
@@ -114,6 +107,7 @@ def compare_object(
 
     return {
         "object": obj,
+        "gt_joint_count": gt_joint_count,
         "summary": summary_block,
         "details": detail_block,
     }
@@ -178,19 +172,17 @@ def main() -> None:
         if args.no_save:
             continue
 
-        # ---- YAML 리포트 작성 ----
-        # 상단: summary (카테고리 전체 + 오브젝트별)
-        # 하단: details (오브젝트별 상세)
-
         summary_section: dict = {}
         detail_section: dict = {}
         for obj_data in report_objects:
-            obj      = obj_data["object"]
-            summary_section[obj] = obj_data["summary"]
-            detail_section[obj]  = obj_data["details"]
+            obj = obj_data["object"]
+            summary_section[obj] = {
+                "gt_joint_count": obj_data["gt_joint_count"],
+                "predictors": obj_data["summary"]
+            }
+            detail_section[obj] = obj_data["details"]
 
         report = {
-            # ── 상단 요약 ──
             "meta": {
                 "category": category,
                 "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -198,10 +190,10 @@ def main() -> None:
                 "predictors": PREDICTORS,
             },
             "summary": summary_section,
-            # ── 하단 상세 ──
             "details": detail_section,
         }
 
+        # 카테고리별 출력 경로 (run_multi_compare 와 동일 패턴)
         out_path = out_dir / category / "report.yml"
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:

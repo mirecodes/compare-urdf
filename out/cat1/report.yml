@@ -1,0 +1,519 @@
+meta:
+  category: cat1
+  generated_at: '2026-03-30T10:26:56.571353+00:00'
+  config: /Users/mireflare/Documents/Codes/scene-reconstruction/compare-urdf/cfgs/config.yml
+  predictors:
+  - ours
+  - aa
+  - screw
+summary:
+  bucket:
+    gt_joint_count: 1
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.0049
+        axis_angle_deg: 0.19
+      aa:
+        type_match: true
+        origin_dist_m: 0.1124
+        axis_angle_deg: 0.0
+      screw:
+        type_match: false
+  fan:
+    gt_joint_count: 1
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.0028
+        axis_angle_deg: 0.01
+      aa:
+        type_match: true
+        origin_dist_m: 0.0122
+        axis_angle_deg: 0.0
+      screw:
+        type_match: true
+        origin_dist_m: 0.0186
+        axis_angle_deg: 0.04
+  globe:
+    gt_joint_count: 1
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.0052
+        axis_angle_deg: 0.48
+      aa:
+        type_match: true
+        origin_dist_m: 0.0429
+        axis_angle_deg: 15.36
+      screw:
+        type_match: true
+        origin_dist_m: 0.0615
+        axis_angle_deg: 30.8
+  microwave:
+    gt_joint_count: 1
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.0063
+        axis_angle_deg: 0.42
+      aa:
+        type_match: true
+        origin_dist_m: 1.5863
+        axis_angle_deg: 0.0
+      screw:
+        type_match: true
+        origin_dist_m: 0.0938
+        axis_angle_deg: 7.75
+  trashcan:
+    gt_joint_count: 1
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: (0.0014)
+        axis_angle_deg: 0.01
+      aa:
+        type_match: true
+        origin_dist_m: (0.0257)
+        axis_angle_deg: 0.0
+      screw:
+        type_match: true
+        origin_dist_m: (0.0257)
+        axis_angle_deg: 0.09
+  usb:
+    gt_joint_count: 1
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: (0.0107)
+        axis_angle_deg: 0.21
+      aa:
+        type_match: true
+        origin_dist_m: (0.0000)
+        axis_angle_deg: 0.0
+      screw:
+        type_match: true
+        origin_dist_m: (0.0000)
+        axis_angle_deg: 0.01
+details:
+  bucket:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.02440178767777957
+      - -9.34239205010082e-18
+      - 0.5762112379034288
+      origin_pred_xyz:
+      - 0.026968776
+      - 0.694366717
+      - 0.5720925179999999
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.0031681708906374025
+      - -0.9999947002011883
+      - 0.0007498418121508602
+      axis_dot_abs: 0.999995
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: bucket_body_to_handle
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.02440178767777957
+      - -9.34239205010082e-18
+      - 0.5762112379034288
+      origin_pred_xyz:
+      - -0.07521100276708674
+      - 0.02657049894332875
+      - 0.628373018741608
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - 6.123233995736767e-17
+      - 1.0
+      - -2.2440784777419078e-31
+      axis_dot_abs: 1.0
+      notes: []
+    screw:
+      joint_name_gt: joint_0
+      joint_name_pred: none
+      type_gt: revolute
+      type_pred: none
+      origin_gt_xyz:
+      - 0.02440178767777957
+      - -9.34239205010082e-18
+      - 0.5762112379034288
+      origin_pred_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_dot_abs: .nan
+      notes:
+      - No movable joint found in pred URDF
+  fan:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.0055210000000000025
+      - -0.010836499999999997
+      - -2.113752778677568e-18
+      origin_pred_xyz:
+      - -0.00328444165
+      - -0.00916661979
+      - -0.0151429573
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -4.520970971484617e-06
+      - 0.00022654534107439397
+      - -0.9999999743283844
+      axis_dot_abs: 1.0
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: fan_frame_to_rotor
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.0055210000000000025
+      - -0.010836499999999997
+      - -2.113752778677568e-18
+      origin_pred_xyz:
+      - 8.589427677008233e-18
+      - -4.3404229057046355e-33
+      - -0.14027599930018236
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 1.0
+      notes: []
+    screw:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.0055210000000000025
+      - -0.010836499999999997
+      - -2.113752778677568e-18
+      origin_pred_xyz:
+      - 0.0126
+      - -0.0067
+      - 0.0
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 0.0006999998145000737
+      - 0.0001999999470000211
+      - -0.9999997350001054
+      axis_dot_abs: 1.0
+      notes: []
+  globe:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.20779371963467175
+      - 0.013686915954528731
+      - 0.9077624022791019
+      origin_pred_xyz:
+      - 0.159461204
+      - 0.00893195752
+      - 0.736343307
+      axis_gt_xyz:
+      - -0.2649265050414956
+      - 0.0015796513331024786
+      - -0.9642673133670789
+      axis_pred_xyz:
+      - -0.27104957400011215
+      - -0.00396471424000164
+      - -0.9625572240003982
+      axis_dot_abs: 0.999964
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: globe_frame_to_sphere
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.20779371963467175
+      - 0.013686915954528731
+      - 0.9077624022791019
+      origin_pred_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_gt_xyz:
+      - -0.2649265050414956
+      - 0.0015796513331024786
+      - -0.9642673133670789
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 0.964267
+      notes: []
+    screw:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_5
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.20779371963467175
+      - 0.013686915954528731
+      - 0.9077624022791019
+      origin_pred_xyz:
+      - -0.0006
+      - -0.0352
+      - 0.0156
+      axis_gt_xyz:
+      - -0.2649265050414956
+      - 0.0015796513331024786
+      - -0.9642673133670789
+      axis_pred_xyz:
+      - 0.07430170264302433
+      - -0.4038092533950635
+      - -0.9118208946152029
+      axis_dot_abs: 0.858917
+      notes: []
+  microwave:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.5477944794777337
+      - 0.6430403380134149
+      - -0.4259389936923983
+      origin_pred_xyz:
+      - -0.55257424
+      - 0.647134065
+      - 0.015627498000000017
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - 0.0031006124613062627
+      - -0.006711975322827701
+      - -0.9999726674212803
+      axis_dot_abs: 0.999973
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: microwave_body_to_door
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.5477944794777337
+      - 0.6430403380134149
+      - -0.4259389936923983
+      origin_pred_xyz:
+      - 0.3497839930057529
+      - -0.6648939766883856
+      - -0.36893799090385426
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 1.0
+      notes: []
+    screw:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.5477944794777337
+      - 0.6430403380134149
+      - -0.4259389936923983
+      origin_pred_xyz:
+      - -0.4928
+      - 0.5671
+      - 0.0499
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - 0.13199583823682956
+      - 0.02749913296600616
+      - 0.9908687584005638
+      axis_dot_abs: 0.990869
+      notes: []
+  trashcan:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - -0.004071576463764727
+      - 0.02533215902820931
+      - -1.5588310204457345e-18
+      origin_pred_xyz:
+      - -0.00499767736
+      - 0.0242939146
+      - 0.434331346
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -9.307581339326122e-05
+      - -0.00013221835999042725
+      - -0.9999999869275991
+      axis_dot_abs: 1.0
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: trashcan_body_to_cover_lid
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - -0.004071576463764727
+      - 0.02533215902820931
+      - -1.5588310204457345e-18
+      origin_pred_xyz:
+      - 1.224646799147077e-19
+      - -6.188404185117097e-35
+      - -0.001999999999999549
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 1.0
+      notes: []
+    screw:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_3
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - -0.004071576463764727
+      - 0.02533215902820931
+      - -1.5588310204457345e-18
+      origin_pred_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -0.00119999841000316
+      - -0.0010999985425028968
+      - -0.9999986750026334
+      axis_dot_abs: 0.999999
+      notes: []
+  usb:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      origin_pred_xyz:
+      - -0.184626082
+      - -0.0107083639
+      - -0.000530721691
+      axis_gt_xyz:
+      - -1.0
+      - 3.8285686989269494e-16
+      - -3.8285686989269494e-16
+      axis_pred_xyz:
+      - 0.9999931755329862
+      - -0.0012112539294343238
+      - -0.00349023657837
+      axis_dot_abs: 0.999993
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: camera_body_to_lens
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      origin_pred_xyz:
+      - -0.0029999999999991336
+      - 1.8369701987204997e-19
+      - -1.8369701987205e-19
+      axis_gt_xyz:
+      - -1.0
+      - 3.8285686989269494e-16
+      - -3.8285686989269494e-16
+      axis_pred_xyz:
+      - 1.0
+      - -6.123233995736767e-17
+      - 6.123233995736767e-17
+      axis_dot_abs: 1.0
+      notes: []
+    screw:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1
+      type_gt: prismatic
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      origin_pred_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_gt_xyz:
+      - -1.0
+      - 3.8285686989269494e-16
+      - -3.8285686989269494e-16
+      axis_pred_xyz:
+      - -0.9999999900000002
+      - 9.999999900000002e-05
+      - -9.999999900000002e-05
+      axis_dot_abs: 1.0
+      notes: []

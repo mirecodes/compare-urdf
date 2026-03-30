@@ -101,3 +101,71 @@ toaster:
     urdf_path: "../data/cat2/ours/toaster.urdf"
     z_rotation: 0
     joint_pairs: null
+
+lamp:
+  gt:
+    urdf_path: "../data/cat3/gt/lamp.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat3/aa/lamp.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat3/screw/lamp.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat3/ours/lamp.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+dispenser:
+  gt:
+    urdf_path: "../data/cat3/gt/dispenser.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat3/aa/dispenser.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat3/screw/dispenser.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat3/ours/dispenser.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+safe:
+  gt:
+    urdf_path: "../data/cat3/gt/safe.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat3/aa/safe.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat3/screw/safe.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat3/ours/safe.urdf"
+    z_rotation: 0
+    joint_pairs: null
+
+stapler:
+  gt:
+    urdf_path: "../data/cat3/gt/stapler.urdf"
+    z_rotation: 0
+  aa:
+    urdf_path: "../data/cat3/aa/stapler.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  screw:
+    urdf_path: "../data/cat3/screw/stapler.urdf"
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: "../data/cat3/ours/stapler.urdf"
+    z_rotation: 0
+    joint_pairs: null

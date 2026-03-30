@@ -1,190 +1,158 @@
+"""
+visualize_results.py
+--------------------
+run_compare.py 가 생성한 report.yml 을 읽어 strip plot 4개를 생성한다.
+"""
+
+import argparse
 import yaml
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import re
-import os
+import sys
+from pathlib import Path
 
-def parse_value(val):
-    """Parses numeric values, handling parentheses. Returns (value, is_prismatic)."""
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+
+def parse_value(val) -> tuple[float, bool]:
     if val is None:
         return np.nan, False
-    
-    is_prismatic = False
     if isinstance(val, str):
-        # Check if the value is in parentheses
-        if val.strip().startswith('(') and val.strip().endswith(')'):
-            is_prismatic = True
-        
-        # Remove parentheses (e.g., "(0.4343)") and convert to float
-        clean_val = re.sub(r'[()]\s*', '', val)
+        is_prismatic = val.strip().startswith("(") and val.strip().endswith(")")
+        clean = re.sub(r"[()]", "", val).strip()
         try:
-            return float(clean_val), is_prismatic
+            return float(clean), is_prismatic
         except ValueError:
             return np.nan, False
     try:
-        return float(val), is_prismatic
+        return float(val), False
     except (TypeError, ValueError):
         return np.nan, False
 
-def main():
-    # Load data
-    report_path = 'out/cat1_report.yml'
-    if not os.path.exists(report_path):
-        print(f"Error: {report_path} not found.")
-        return
 
-    print(f"Reading data from {report_path}...")
-    with open(report_path, 'r', encoding='utf-8') as f:
-        data = yaml.safe_load(f)
-    
-    summary = data.get('summary', {})
-    
+def build_dataframe(summary: dict, methods: list[str]) -> pd.DataFrame:
     rows = []
-    methods = ['aa', 'screw', 'ours']
-    
-    for obj_name, results in summary.items():
+    for obj_name, obj_data in summary.items():
+        # 요약 구조: { gt_joint_count: N, predictors: { p_name: { result } } }
+        gt_count = obj_data.get("gt_joint_count", 1)
+        preds = obj_data.get("predictors", {})
+        
         for method in methods:
-            m_data = results.get(method, {})
-            if m_data is None:
-                m_data = {}
-                
-            type_match = m_data.get('type_match', False)
+            m_data = preds.get(method, {})
+            if not m_data or (isinstance(m_data, dict) and not m_data):
+                continue
+            
+            type_match = m_data.get("type_match", False)
             
             # 1. Type Match Rate
             rows.append({
-                'Method': method,
-                'Metric': 'Type Match Rate',
-                'Value': 1 if type_match else 0,
-                'Is_Prismatic': False
+                "Method": method, "Object": obj_name, "Metric": "Joint Type Match Rate",
+                "Value": 1.0 if type_match else 0.0, "Is_Prismatic": False
             })
             
-            # 2. Joint Origin Error
-            origin_val = np.nan
-            is_prismatic = False
-            if type_match:
-                origin_val, is_prismatic = parse_value(m_data.get('origin_dist_m', np.nan))
+            # 2. Origin Error
+            dist_raw = m_data.get("origin_dist_m")
+            dist, is_p = parse_value(dist_raw)
+            if not np.isnan(dist):
+                rows.append({
+                    "Method": method, "Object": obj_name, "Metric": "Joint Origin Error (m)",
+                    "Value": dist, "Is_Prismatic": is_p
+                })
+            
+            # 3. Axis Error
+            angle_raw = m_data.get("axis_angle_deg")
+            angle, _ = parse_value(angle_raw)
+            if not np.isnan(angle):
+                rows.append({
+                    "Method": method, "Object": obj_name, "Metric": "Joint Axis Error (deg)",
+                    "Value": angle, "Is_Prismatic": False
+                })
+
+            # 4. Error Score
+            success_count = 1 if type_match else 0
+            error_score = max(0, gt_count - success_count)
             rows.append({
-                'Method': method,
-                'Metric': 'Joint Origin Error (meters)',
-                'Value': origin_val,
-                'Is_Prismatic': is_prismatic
+                "Method": method, "Object": obj_name, "Metric": "Joint Reconstruction Error Score",
+                "Value": float(error_score), "Is_Prismatic": False
             })
-            
-            # 3. Joint Axis Error
-            axis_val = np.nan
-            if type_match:
-                axis_val, _ = parse_value(m_data.get('axis_angle_deg', np.nan))
-            rows.append({
-                'Method': method,
-                'Metric': 'Joint Axis Error (degrees)',
-                'Value': axis_val,
-                'Is_Prismatic': False
-            })
-            
-    df = pd.DataFrame(rows)
-    
-    # Visualization setup
+    return pd.DataFrame(rows)
+
+
+def plot_metric(df, metric_name, out_path, title, ylabel, order):
+    subset = df[df["Metric"] == metric_name].copy()
+    if subset.empty: return
+
+    plt.figure(figsize=(10, 6))
+    ax = plt.gca()
+    palette = "Set2"
+    set2_colors = sns.color_palette(palette, len(order))
+    method_color = {m: set2_colors[i] for i, m in enumerate(order)}
+    rng = np.random.default_rng(seed=42)
+
+    if metric_name == "Joint Origin Error (m)":
+        normal = subset[~subset["Is_Prismatic"]]
+        prismatic = subset[subset["Is_Prismatic"]]
+        if not normal.empty:
+            sns.stripplot(data=normal, x="Method", y="Value", order=order, size=11, jitter=0.2, alpha=0.8, palette=palette, hue="Method", legend=False, ax=ax)
+        if not prismatic.empty:
+            for i, method in enumerate(order):
+                pts = prismatic[prismatic["Method"] == method]["Value"].dropna()
+                if pts.empty: continue
+                jitter = rng.uniform(-0.2, 0.2, size=len(pts))
+                ax.scatter(x=i + jitter, y=pts.values, s=11**2, facecolors="none", edgecolors=method_color[method], linewidths=2, zorder=3)
+        medians = normal.groupby("Method", observed=True)["Value"].mean().reindex(order)
+    else:
+        sns.stripplot(data=subset, x="Method", y="Value", order=order, size=11, jitter=0.2, alpha=0.8, palette=palette, hue="Method", legend=False, ax=ax)
+        medians = subset.groupby("Method", observed=True)["Value"].mean().reindex(order)
+
+    for i, method in enumerate(order):
+        m_val = medians.get(method, np.nan)
+        if not np.isnan(m_val):
+            ax.plot([i - 0.25, i + 0.25], [m_val, m_val], color="#e74c3c", lw=5, solid_capstyle="round", zorder=5)
+            ax.text(i, m_val, f"{m_val:.3f}", color="black", ha="center", va="bottom", fontsize=10, fontweight="bold", zorder=6)
+
+    if metric_name == "Joint Type Match Rate":
+        ax.set_ylim(-0.2, 1.2); ax.set_yticks([0, 1]); ax.set_yticklabels(["Failure (0)", "Success (1)"])
+
+    ax.set_title(title, fontsize=16, fontweight="bold", pad=20)
+    ax.set_ylabel(ylabel, fontsize=13); ax.set_xlabel("Method", fontsize=13)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300)
+    plt.close()
+    print(f"  [저장] {out_path.name}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--report", required=True, help="report.yml 경로")
+    args = parser.parse_args()
+    report_path = Path(args.report)
+    if not report_path.exists(): return
+
+    with report_path.open("r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    summary = data.get("summary", {})
+    if not summary: return
+
+    # x-축 순서 고정 (AA -> Screw -> Ours)
+    methods = ["aa", "screw", "ours"]
+    print(f"  Plotting methods: {methods}")
+
+    df = build_dataframe(summary, methods)
     sns.set_theme(style="whitegrid")
-    order = ['aa', 'screw', 'ours']
-    
+    out_dir = report_path.parent
     plot_configs = [
-        {
-            'metric': 'Type Match Rate',
-            'filename': 'type_match_error.png',
-            'ylabel': 'Success (1) / Failure (0)',
-            'title': 'Joint Type Match Rate'
-        },
-        {
-            'metric': 'Joint Origin Error (meters)',
-            'filename': 'origin_dist_error.png',
-            'ylabel': 'Error (meters)',
-            'title': 'Joint Origin Position Error'
-        },
-        {
-            'metric': 'Joint Axis Error (degrees)',
-            'filename': 'axis_angle_error.png',
-            'ylabel': 'Error (degrees)',
-            'title': 'Joint Axis Orientation Error'
-        }
+        {"metric": "Joint Type Match Rate", "filename": "type_match_eval.png", "title": "Joint Type Match Rate", "ylabel": "Success (1) / Failure (0)"},
+        {"metric": "Joint Origin Error (m)", "filename": "origin_dist_eval.png", "title": "Joint Origin Position Error", "ylabel": "Error (m)"},
+        {"metric": "Joint Axis Error (deg)", "filename": "axis_angle_eval.png", "title": "Joint Axis Orientation Error", "ylabel": "Error (deg)"},
+        {"metric": "Joint Reconstruction Error Score", "filename": "error_score_eval.png", "title": "Joint Reconstruction Error Score", "ylabel": "Total Errors"},
     ]
-    
-    for config in plot_configs:
-        metric_name = config['metric']
-        filename = config['filename']
-        
-        plt.figure(figsize=(10, 6))
-        subset = df[df['Metric'] == metric_name].copy()
-        
-        # Plotting logic: only Origin Error uses prismatic split
-        if metric_name == 'Joint Origin Error (meters)':
-            subset_normal = subset[subset['Is_Prismatic'] == False]
-            subset_prismatic = subset[subset['Is_Prismatic'] == True]
-            
-            # 1. Plot normal (revolute) dots — solid filled
-            if not subset_normal.empty:
-                sns.stripplot(
-                    data=subset_normal, 
-                    x='Method', y='Value', order=order, 
-                    size=12, jitter=0.2, alpha=0.8, 
-                    palette="Set2", hue='Method', legend=False
-                )
-            
-            # 2. Plot prismatic dots — transparent fill, colored border only
-            # seaborn ignores facecolors='none', so we use matplotlib scatter directly
-            if not subset_prismatic.empty:
-                ax = plt.gca()
-                # Set2 palette colors matching order
-                set2_colors = sns.color_palette("Set2", len(order))
-                method_color = {m: set2_colors[i] for i, m in enumerate(order)}
-                rng = np.random.default_rng(seed=42)  # fixed seed for reproducibility
-                for i, method in enumerate(order):
-                    pts = subset_prismatic[subset_prismatic['Method'] == method]['Value'].dropna()
-                    if not pts.empty:
-                        jitter_offsets = rng.uniform(-0.2, 0.2, size=len(pts))
-                        ax.scatter(
-                            x=i + jitter_offsets,
-                            y=pts.values,
-                            s=12**2,  # size=12 in stripplot → s=size^2 for scatter
-                            facecolors='none',
-                            edgecolors=method_color[method],
-                            linewidths=2,
-                            zorder=3
-                        )
-            
-            # Mean uses ONLY non-prismatic (revolute) points
-            medians = subset_normal.groupby('Method', observed=True)['Value'].mean().reindex(order)
-        else:
-            # All other metrics: plot all points, include all in median
-            sns.stripplot(
-                data=subset, 
-                x='Method', y='Value', order=order, 
-                size=12, jitter=0.2, alpha=0.8, 
-                palette="Set2", hue='Method', legend=False
-            )
-            medians = subset.groupby('Method', observed=True)['Value'].mean().reindex(order)
-        
-        # Add a short horizontal line for each median
-        for i, method in enumerate(order):
-            m_val = medians.get(method, np.nan)
-            if not np.isnan(m_val):
-                plt.plot([i - 0.25, i + 0.25], [m_val, m_val], color='#e74c3c', lw=5, solid_capstyle='round', zorder=5)
-                plt.text(i, m_val, f'{m_val:.3f}', color='black', ha='center', va='bottom', fontsize=10, fontweight='bold', zorder=6)
-        
-        plt.title(config['title'], fontsize=16, fontweight='bold', pad=20)
-        plt.ylabel(config['ylabel'], fontsize=13)
-        plt.xlabel("Method", fontsize=13)
-        
-        # Special handling for Type Match Rate scale
-        if metric_name == 'Type Match Rate':
-            plt.ylim(-0.2, 1.2)
-            plt.yticks([0, 1], ['Failure (0)', 'Success (1)'])
-            
-        plt.tight_layout()
-        plt.savefig(filename, dpi=300)
-        plt.close()
-        print(f"Created and saved: {filename}")
+    for cfg in plot_configs:
+        plot_metric(df, cfg["metric"], out_dir / cfg["filename"], cfg["title"], cfg["ylabel"], methods)
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,360 @@
+meta:
+  category: cat2
+  generated_at: '2026-03-30T10:26:56.627856+00:00'
+  config: /Users/mireflare/Documents/Codes/scene-reconstruction/compare-urdf/cfgs/config.yml
+  predictors:
+  - ours
+  - aa
+  - screw
+summary:
+  toilet:
+    gt_joint_count: 4
+    predictors:
+      ours:
+        type_match: false
+        origin_dist_m: 0.2481
+        axis_angle_deg: 87.99
+      aa:
+        type_match: true
+        origin_dist_m: 0.9604
+        axis_angle_deg: 50.08
+  faucet:
+    gt_joint_count: 3
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.01
+        axis_angle_deg: 1.54
+      aa:
+        type_match: true
+        origin_dist_m: 0.2391
+        axis_angle_deg: 90.0
+  folding_chair:
+    gt_joint_count: 2
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.0039
+        axis_angle_deg: 0.33
+      aa:
+        type_match: true
+        origin_dist_m: 0.5622
+        axis_angle_deg: 0.0
+  box:
+    gt_joint_count: 4
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.4711
+        axis_angle_deg: 88.68
+      aa:
+        type_match: true
+        origin_dist_m: 0.1125
+        axis_angle_deg: 90.0
+  refrigerator:
+    gt_joint_count: 2
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.9521
+        axis_angle_deg: 2.11
+      aa:
+        type_match: true
+        origin_dist_m: 1.1607
+        axis_angle_deg: 0.0
+  toaster:
+    gt_joint_count: 2
+    predictors:
+      ours:
+        type_match: true
+        origin_dist_m: 0.0072
+        axis_angle_deg: 1.54
+      aa:
+        type_match: false
+        origin_dist_m: 0.3745
+        axis_angle_deg: 67.77
+details:
+  toilet:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_4
+      type_gt: revolute
+      type_pred: prismatic
+      origin_gt_xyz:
+      - 0.2799917316461595
+      - 0.43970134167816555
+      - 0.5636205013744165
+      origin_pred_xyz:
+      - 0.426424517
+      - -0.000165591769
+      - 0.618794232
+      axis_gt_xyz:
+      - -0.7666905658650204
+      - 0.6417824432178285
+      - -0.017345656255379305
+      axis_pred_xyz:
+      - -0.022216106090089605
+      - 0.00106128672952657
+      - -0.9997526285540198
+      axis_dot_abs: 0.035055
+      notes:
+      - 'Type mismatch: gt=''revolute'', pred=''prismatic'''
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: seat_to_lid
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.2799917316461595
+      - 0.43970134167816555
+      - 0.5636205013744165
+      origin_pred_xyz:
+      - -0.08330599898099955
+      - -0.31934799933433533
+      - 0.05950497668981593
+      axis_gt_xyz:
+      - -0.7666905658650204
+      - 0.6417824432178285
+      - -0.017345656255379305
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - -1.0
+      - 2.2440784777419078e-31
+      axis_dot_abs: 0.641782
+      notes: []
+  faucet:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_2
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.18586969420261676
+      - -7.116148933032624e-17
+      - -0.40516169420261655
+      origin_pred_xyz:
+      - 0.175869532
+      - 0.294052897
+      - -0.405940895
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.026005643800915423
+      - -0.9996405240351883
+      - -0.006521441340229561
+      axis_dot_abs: 0.999641
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: faucet_base_to_spout
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.18586969420261676
+      - -7.116148933032624e-17
+      - -0.40516169420261655
+      origin_pred_xyz:
+      - 0.34355899691581715
+      - 0.004660999402403658
+      - -0.22541399574279772
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 0.0
+      notes: []
+  folding_chair:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_3_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.029398859262694955
+      - 1.1255555235731253e-17
+      - 0.01915017226644359
+      origin_pred_xyz:
+      - -0.02733539318
+      - -0.3863196763
+      - 0.022458155599999998
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - 0.0043974992119655935
+      - 0.9999838034469727
+      - 0.003613148821615005
+      axis_dot_abs: 0.999984
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: chair_leg_to_seat
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.029398859262694955
+      - 1.1255555235731253e-17
+      - 0.01915017226644359
+      origin_pred_xyz:
+      - -0.4283710041046148
+      - -0.5207340040206911
+      - -0.3769639906883238
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - -1.0
+      - 2.2440784777419078e-31
+      axis_dot_abs: 1.0
+      notes: []
+  box:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_4
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.46634899999999974
+      - -0.22824362703686701
+      - 0.17569499999999968
+      origin_pred_xyz:
+      - -0.00473737675
+      - -0.470997736
+      - 0.179167553
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.9997296700740944
+      - 0.02300485230170499
+      - 0.0033709856302498384
+      axis_dot_abs: 0.023005
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: box_body_to_lid_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.46634899999999974
+      - -0.22824362703686701
+      - 0.17569499999999968
+      origin_pred_xyz:
+      - 0.4240290136337275
+      - 0.43080900001525857
+      - 0.2799790027141574
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -1.0
+      - 6.123233995736767e-17
+      - -6.123233995736767e-17
+      axis_dot_abs: 0.0
+      notes: []
+  refrigerator:
+    ours:
+      joint_name_gt: joint_1
+      joint_name_pred: joint_1_3
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.21105892222321426
+      - -0.4963420826169706
+      - 0.811119
+      origin_pred_xyz:
+      - -0.223171178
+      - 0.455642912
+      - 0.0114649918
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -0.0009491888946739267
+      - 0.03676403278737051
+      - -0.9993235236567041
+      axis_dot_abs: 0.999324
+      notes: []
+    aa:
+      joint_name_gt: joint_1
+      joint_name_pred: furniture_body_to_door
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.21105892222321426
+      - -0.4963420826169706
+      - 0.811119
+      origin_pred_xyz:
+      - 0.24479700350761485
+      - 0.5710790076255797
+      - -0.8103809871673583
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 1.0
+      notes: []
+  toaster:
+    ours:
+      joint_name_gt: joint_0
+      joint_name_pred: joint_1_3
+      type_gt: continuous
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.15914584524660266
+      - -0.007537775917565657
+      - -0.38942381371309287
+      origin_pred_xyz:
+      - -0.739986182
+      - -0.00422029651
+      - -0.158946904
+      axis_gt_xyz:
+      - -0.9256834237749085
+      - 3.5440425813801455e-16
+      - 0.378299086634323
+      axis_pred_xyz:
+      - 0.9349960967196753
+      - 0.008631618657412122
+      - -0.3545529498937001
+      axis_dot_abs: 0.999637
+      notes: []
+    aa:
+      joint_name_gt: joint_0
+      joint_name_pred: toaster_body_to_slider
+      type_gt: continuous
+      type_pred: prismatic
+      origin_gt_xyz:
+      - -0.15914584524660266
+      - -0.007537775917565657
+      - -0.38942381371309287
+      origin_pred_xyz:
+      - 3.0616169978683824e-18
+      - -1.5471010462796244e-33
+      - -0.05
+      axis_gt_xyz:
+      - -0.9256834237749085
+      - 3.5440425813801455e-16
+      - 0.378299086634323
+      axis_pred_xyz:
+      - -6.123233995736767e-17
+      - 3.0942020925592465e-32
+      - 1.0
+      axis_dot_abs: 0.378299
+      notes:
+      - 'Type mismatch: gt=''continuous'', pred=''prismatic'''

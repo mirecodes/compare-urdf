@@ -13,6 +13,8 @@
 # pred 블록에 joint_pairs 가 없으면 해당 predictor 는 skip.
 # ---------------------------------------------------------------------------
 
+
+# cat2
 toilet:
   gt:
     urdf_path: ../data/cat2/gt/toilet.urdf
@@ -54,6 +56,7 @@ faucet:
       joint_0: joint_1_2
       joint_1: joint_1_3
       joint_3: joint_1_4
+
 folding_chair:
   gt:
     urdf_path: ../data/cat2/gt/folding_chair.urdf
@@ -73,6 +76,7 @@ folding_chair:
     joint_pairs:
       joint_0: joint_3_2
       joint_2: joint_1_3
+
 box:
   gt:
     urdf_path: ../data/cat2/gt/box.urdf
@@ -95,6 +99,7 @@ box:
       joint_1: joint_1_2
       joint_2: joint_1_3
       joint_3: joint_1_4
+
 refrigerator:
   gt:
     urdf_path: ../data/cat2/gt/refrigerator.urdf
@@ -114,6 +119,7 @@ refrigerator:
     joint_pairs:
       joint_1: joint_1_2
       joint_2: joint_1_3
+
 toaster:
   gt:
     urdf_path: ../data/cat2/gt/toaster.urdf
@@ -133,3 +139,88 @@ toaster:
     joint_pairs:
       joint_0: joint_1_3
       joint_1: joint_1_2
+
+
+# cat3
+
+lamp:
+  gt:
+    urdf_path: ../data/cat3/gt/lamp.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat3/aa/lamp.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_3: bar_2_to_head
+  screw:
+    urdf_path: ../data/cat3/screw/lamp.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat3/ours/lamp.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_1: joint_3_4
+      joint_2: joint_2_3
+      joint_3: joint_1_2
+
+dispenser:
+  gt:
+    urdf_path: ../data/cat3/gt/dispenser.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat3/aa/dispenser.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: bottle_body_to_lid
+  screw:
+    urdf_path: ../data/cat3/screw/dispenser.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat3/ours/dispenser.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_3_4
+      joint_2: joint_1_2
+      joint_3: joint_2_3
+
+safe:
+  gt:
+    urdf_path: ../data/cat3/gt/safe.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat3/aa/safe.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: safe_body_to_door
+  screw:
+    urdf_path: ../data/cat3/screw/safe.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat3/ours/safe.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+      joint_1: joint_2_3
+
+stapler:
+  gt:
+    urdf_path: ../data/cat3/gt/stapler.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat3/aa/stapler.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: stapler_body_to_lid
+  screw:
+    urdf_path: ../data/cat3/screw/stapler.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat3/ours/stapler.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: {name: joint_2_3, offset: -45.0}
+      joint_1: {name: joint_1_2, offset: -90.0}

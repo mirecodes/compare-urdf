@@ -1,0 +1,10 @@
+meta:
+  category: cat3
+  generated_at: '2026-03-30T10:26:56.634768+00:00'
+  config: /Users/mireflare/Documents/Codes/scene-reconstruction/compare-urdf/cfgs/config.yml
+  predictors:
+  - ours
+  - aa
+  - screw
+summary: {}
+details: {}
