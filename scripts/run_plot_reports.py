@@ -1,21 +1,22 @@
 """
-visualize_results.py
---------------------
-run_compare.py 가 생성한 report.yml 을 읽어 strip plot 4개를 생성한다.
+visualize_multi.py
+------------------
+run_multi_compare.py 가 생성한 multi_report.yml 을 읽어 strip plot 4개를 생성한다.
 """
 
 import argparse
-import yaml
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
 import re
 import sys
 from pathlib import Path
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "utils"))
 
 
 def parse_value(val) -> tuple[float, bool]:
@@ -37,44 +38,37 @@ def parse_value(val) -> tuple[float, bool]:
 def build_dataframe(summary: dict, methods: list[str]) -> pd.DataFrame:
     rows = []
     for obj_name, obj_data in summary.items():
-        # 요약 구조: { gt_joint_count: N, predictors: { p_name: { result } } }
-        gt_count = obj_data.get("gt_joint_count", 1)
-        preds = obj_data.get("predictors", {})
+        gt_joint_count = obj_data.get("gt_joint_count", 0)
+        predictors_data = obj_data.get("predictors", {})
         
         for method in methods:
-            m_data = preds.get(method, {})
-            if not m_data or (isinstance(m_data, dict) and not m_data):
-                continue
-            
-            type_match = m_data.get("type_match", False)
-            
-            # 1. Type Match Rate
-            rows.append({
-                "Method": method, "Object": obj_name, "Metric": "Joint Type Match Rate",
-                "Value": 1.0 if type_match else 0.0, "Is_Prismatic": False
-            })
-            
-            # 2. Origin Error
-            dist_raw = m_data.get("origin_dist_m")
-            dist, is_p = parse_value(dist_raw)
-            if not np.isnan(dist):
+            joint_rows = predictors_data.get(method, [])
+            for jrow in joint_rows:
+                # 1. Type Match
                 rows.append({
-                    "Method": method, "Object": obj_name, "Metric": "Joint Origin Error (m)",
-                    "Value": dist, "Is_Prismatic": is_p
+                    "Method": method, "Object": obj_name, "Metric": "Joint Type Match Rate",
+                    "Value": 1.0 if jrow.get("type_match", False) else 0.0, "Is_Prismatic": False
                 })
+                # 2. Origin Error
+                dist_raw = jrow.get("origin_dist_m")
+                dist, is_p = parse_value(dist_raw)
+                if not np.isnan(dist):
+                    rows.append({
+                        "Method": method, "Object": obj_name, "Metric": "Joint Origin Error (m)",
+                        "Value": dist, "Is_Prismatic": is_p
+                    })
+                # 3. Axis Error
+                angle_raw = jrow.get("axis_angle_deg")
+                angle, _ = parse_value(angle_raw)
+                if not np.isnan(angle):
+                    rows.append({
+                        "Method": method, "Object": obj_name, "Metric": "Joint Axis Error (deg)",
+                        "Value": angle, "Is_Prismatic": False
+                    })
             
-            # 3. Axis Error
-            angle_raw = m_data.get("axis_angle_deg")
-            angle, _ = parse_value(angle_raw)
-            if not np.isnan(angle):
-                rows.append({
-                    "Method": method, "Object": obj_name, "Metric": "Joint Axis Error (deg)",
-                    "Value": angle, "Is_Prismatic": False
-                })
-
-            # 4. Error Score
-            success_count = 1 if type_match else 0
-            error_score = max(0, gt_count - success_count)
+            # 4. Error Score (Per Object)
+            success_count = sum(1 for jrow in joint_rows if jrow.get("type_match", False))
+            error_score = max(0, gt_joint_count - success_count)
             rows.append({
                 "Method": method, "Object": obj_name, "Metric": "Joint Reconstruction Error Score",
                 "Value": float(error_score), "Is_Prismatic": False
@@ -88,25 +82,29 @@ def plot_metric(df, metric_name, out_path, title, ylabel, order):
 
     plt.figure(figsize=(10, 6))
     ax = plt.gca()
-    palette = "Set2"
-    set2_colors = sns.color_palette(palette, len(order))
-    method_color = {m: set2_colors[i] for i, m in enumerate(order)}
+    
+    # 메소드별 색상 고정 (Set2 팔레트 기반 명시적 매핑)
+    method_color = {
+        "aa": "#66c2a5",    # Greenish
+        "screw": "#fc8d62", # Orange
+        "ours": "#8da0cb",  # Blue/Purple
+    }
     rng = np.random.default_rng(seed=42)
 
     if metric_name == "Joint Origin Error (m)":
         normal = subset[~subset["Is_Prismatic"]]
         prismatic = subset[subset["Is_Prismatic"]]
         if not normal.empty:
-            sns.stripplot(data=normal, x="Method", y="Value", order=order, size=11, jitter=0.2, alpha=0.8, palette=palette, hue="Method", legend=False, ax=ax)
+            sns.stripplot(data=normal, x="Method", y="Value", order=order, size=11, jitter=0.2, alpha=0.8, palette=method_color, hue="Method", legend=False, ax=ax)
         if not prismatic.empty:
             for i, method in enumerate(order):
                 pts = prismatic[prismatic["Method"] == method]["Value"].dropna()
                 if pts.empty: continue
                 jitter = rng.uniform(-0.2, 0.2, size=len(pts))
-                ax.scatter(x=i + jitter, y=pts.values, s=11**2, facecolors="none", edgecolors=method_color[method], linewidths=2, zorder=3)
+                ax.scatter(x=i + jitter, y=pts.values, s=11**2, facecolors="none", edgecolors=method_color.get(method, "black"), linewidths=2, zorder=3)
         medians = normal.groupby("Method", observed=True)["Value"].mean().reindex(order)
     else:
-        sns.stripplot(data=subset, x="Method", y="Value", order=order, size=11, jitter=0.2, alpha=0.8, palette=palette, hue="Method", legend=False, ax=ax)
+        sns.stripplot(data=subset, x="Method", y="Value", order=order, size=11, jitter=0.2, alpha=0.8, palette=method_color, hue="Method", legend=False, ax=ax)
         medians = subset.groupby("Method", observed=True)["Value"].mean().reindex(order)
 
     for i, method in enumerate(order):
@@ -140,16 +138,17 @@ def main() -> None:
 
     # x-축 순서 고정 (AA -> Screw -> Ours)
     methods = ["aa", "screw", "ours"]
-    print(f"  Plotting methods: {methods}")
+    print(f"\n  Plotting methods: {methods}")
+    print(f"  Objects: {list(summary.keys())}\n")
 
     df = build_dataframe(summary, methods)
     sns.set_theme(style="whitegrid")
     out_dir = report_path.parent
     plot_configs = [
-        {"metric": "Joint Type Match Rate", "filename": "type_match_eval.png", "title": "Joint Type Match Rate", "ylabel": "Success (1) / Failure (0)"},
-        {"metric": "Joint Origin Error (m)", "filename": "origin_dist_eval.png", "title": "Joint Origin Position Error", "ylabel": "Error (m)"},
-        {"metric": "Joint Axis Error (deg)", "filename": "axis_angle_eval.png", "title": "Joint Axis Orientation Error", "ylabel": "Error (deg)"},
-        {"metric": "Joint Reconstruction Error Score", "filename": "error_score_eval.png", "title": "Joint Reconstruction Error Score", "ylabel": "Total Errors"},
+        {"metric": "Joint Type Match Rate", "filename": "multi_type_match.png", "title": "Joint Type Match Rate", "ylabel": "Success (1) / Failure (0)"},
+        {"metric": "Joint Origin Error (m)", "filename": "multi_origin_dist.png", "title": "Joint Origin Position Error", "ylabel": "Error (m)"},
+        {"metric": "Joint Axis Error (deg)", "filename": "multi_axis_angle.png", "title": "Joint Axis Orientation Error", "ylabel": "Error (deg)"},
+        {"metric": "Joint Reconstruction Error Score", "filename": "multi_error_score.png", "title": "Joint Reconstruction Error Score", "ylabel": "Total Errors"},
     ]
     for cfg in plot_configs:
         plot_metric(df, cfg["metric"], out_dir / cfg["filename"], cfg["title"], cfg["ylabel"], methods)

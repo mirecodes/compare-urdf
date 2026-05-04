@@ -1,3 +1,116 @@
+microwave:
+  gt:
+    urdf_path: ../data/cat1/gt/microwave.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat1/aa/microwave.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: microwave_body_to_door
+  screw:
+    urdf_path: ../data/cat1/screw/microwave.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_2
+  ours:
+    urdf_path: ../data/cat1/ours/microwave.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+bucket:
+  gt:
+    urdf_path: ../data/cat1/gt/bucket.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat1/aa/bucket.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: bucket_body_to_handle
+  screw:
+    urdf_path: ../data/cat1/screw/bucket.urdf
+    z_rotation: 0
+    joint_pairs: null
+  ours:
+    urdf_path: ../data/cat1/ours/bucket.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+trashcan:
+  gt:
+    urdf_path: ../data/cat1/gt/trashcan.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat1/aa/trashcan.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: trashcan_body_to_cover_lid
+  screw:
+    urdf_path: ../data/cat1/screw/trashcan.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1
+  ours:
+    urdf_path: ../data/cat1/ours/trashcan.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+fan:
+  gt:
+    urdf_path: ../data/cat1/gt/fan.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat1/aa/fan.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: fan_frame_to_rotor
+  screw:
+    urdf_path: ../data/cat1/screw/fan.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1
+  ours:
+    urdf_path: ../data/cat1/ours/fan.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+globe:
+  gt:
+    urdf_path: ../data/cat1/gt/globe.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat1/aa/globe.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: globe_frame_to_sphere
+  screw:
+    urdf_path: ../data/cat1/screw/globe.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_4
+  ours:
+    urdf_path: ../data/cat1/ours/globe.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
+usb:
+  gt:
+    urdf_path: ../data/cat1/gt/usb.urdf
+    z_rotation: 0
+  aa:
+    urdf_path: ../data/cat1/aa/usb.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: camera_body_to_lens
+  screw:
+    urdf_path: ../data/cat1/screw/usb.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1
+  ours:
+    urdf_path: ../data/cat1/ours/usb.urdf
+    z_rotation: 0
+    joint_pairs:
+      joint_0: joint_1_2
 toilet:
   gt:
     urdf_path: ../data/cat2/gt/toilet.urdf
@@ -10,7 +123,8 @@ toilet:
   screw:
     urdf_path: ../data/cat2/screw/toilet.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_1: joint_1
   ours:
     urdf_path: ../data/cat2/ours/toilet.urdf
     z_rotation: 0
@@ -30,7 +144,8 @@ faucet:
   screw:
     urdf_path: ../data/cat2/screw/faucet.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_3: joint_1
   ours:
     urdf_path: ../data/cat2/ours/faucet.urdf
     z_rotation: 0
@@ -50,7 +165,9 @@ folding_chair:
   screw:
     urdf_path: ../data/cat2/screw/folding_chair.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_0: joint_2
+      joint_2: joint_3
   ours:
     urdf_path: ../data/cat2/ours/folding_chair.urdf
     z_rotation: 0
@@ -70,7 +187,11 @@ box:
   screw:
     urdf_path: ../data/cat2/screw/box.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_0: joint_4
+      joint_1: joint_6
+      joint_2: joint_2
+      joint_3: joint_1
   ours:
     urdf_path: ../data/cat2/ours/box.urdf
     z_rotation: 0
@@ -91,7 +212,9 @@ refrigerator:
   screw:
     urdf_path: ../data/cat2/screw/refrigerator.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_1: joint_3
+      joint_2: joint_4
   ours:
     urdf_path: ../data/cat2/ours/refrigerator.urdf
     z_rotation: 0
@@ -110,7 +233,8 @@ toaster:
   screw:
     urdf_path: ../data/cat2/screw/toaster.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_1: joint_1
   ours:
     urdf_path: ../data/cat2/ours/toaster.urdf
     z_rotation: 0
@@ -149,7 +273,10 @@ dispenser:
   screw:
     urdf_path: ../data/cat3/screw/dispenser.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_0: joint_2
+      joint_2: joint_4
+      joint_3: joint_3
   ours:
     urdf_path: ../data/cat3/ours/dispenser.urdf
     z_rotation: 0
@@ -169,7 +296,8 @@ safe:
   screw:
     urdf_path: ../data/cat3/screw/safe.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_1: joint_1
   ours:
     urdf_path: ../data/cat3/ours/safe.urdf
     z_rotation: 0
@@ -188,7 +316,9 @@ stapler:
   screw:
     urdf_path: ../data/cat3/screw/stapler.urdf
     z_rotation: 0
-    joint_pairs: null
+    joint_pairs:
+      joint_0: joint_2
+      joint_1: joint_3
   ours:
     urdf_path: ../data/cat3/ours/stapler.urdf
     z_rotation: 0

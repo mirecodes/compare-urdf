@@ -1,210 +1,149 @@
 """
-run_compare.py
---------------
-cfgs/config.yml 을 읽어 여러 카테고리/오브젝트를 일괄 비교하고
-YAML 리포트를 out/ 에 저장한다.
-
-사용법:
-  python scripts/run_compare.py                        # cfgs/config.yml 기본
-  python scripts/run_compare.py --config cfgs/other.yml
-  python scripts/run_compare.py --no-save              # 터미널 출력만
+run_multi_compare.py
+-------------------
+URDF 멀티 조인트 비교 실행 스크립트.
 """
-
-from __future__ import annotations
 
 import argparse
 import sys
+import math
 from pathlib import Path
 from datetime import datetime, timezone
 
-import yaml  # pyyaml
-import yourdfpy
+import yaml
 
+# 스크립트 경로 추가
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "utils"))
 
-from compare_urdf import (  # noqa: E402
-    compare_urdf_files,
-    result_to_summary_dict,
-    result_to_detail_dict,
-    print_result,
-    MOVABLE_TYPES,
-)
-
-PREDICTORS = ["ours", "aa", "screw"]  # GT 와 비교할 대상 폴더 목록
+from compare_urdf import ComparisonResult
+from compare_multi_joint import parse_mapping_yml, compare_by_mapping
 
 
-# ---------------------------------------------------------------------------
-# 헬퍼
-# ---------------------------------------------------------------------------
-
-def find_urdf(folder: Path, obj_name: str) -> Path:
-    """
-    {folder}/{obj_name}.urdf 를 찾는다.
-    없으면 폴더 안의 첫 번째 .urdf 를 fallback 으로 사용한다.
-    """
-    exact = folder / f"{obj_name}.urdf"
-    if exact.exists():
-        return exact
-
-    urdfs = sorted(folder.glob("*.urdf"))
-    if not urdfs:
-        raise FileNotFoundError(f"No .urdf file found in {folder}")
-    print(f"[WARN] {exact} 없음 → fallback: {urdfs[0].name}")
-    return urdfs[0]
+def _result_to_summary_row(r: ComparisonResult) -> dict:
+    """YAML 상단 요약용 데이터 변환."""
+    from compare_urdf import result_to_summary_dict
+    return result_to_summary_dict(r)
 
 
-# ---------------------------------------------------------------------------
-# 단일 오브젝트 비교
-# ---------------------------------------------------------------------------
-
-def compare_object(
-    category: str,
-    obj: str,
-    print_detail: bool = True,
-) -> dict:
-    """
-    GT vs {ours, aa} 비교를 수행하고 리포트용 dict 를 반환한다.
-    """
-    base = ROOT / "data" / category   # data/{category}/
-
-    gt_dir = base / "gt"
-    if not gt_dir.exists():
-        raise FileNotFoundError(f"GT 폴더 없음: {gt_dir}")
-
-    gt_urdf = find_urdf(gt_dir, obj)
-    
-    # GT movable joint 총 개수 파악
-    gt_joint_count = 0
-    try:
-        model = yourdfpy.URDF.load(str(gt_urdf))
-        gt_joint_count = sum(1 for j in model.joint_map.values() if j.type in MOVABLE_TYPES)
-    except Exception as e:
-        print(f"  [WARN] GT URDF 로드 실패 (개수 파악 불가): {e}")
-
-    print(f"\n  ▷ {category}/{obj}  |  GT: {gt_urdf.name} (joints={gt_joint_count})")
-
-    summary_block: dict = {}
-    detail_block: dict = {}
-
-    for pred in PREDICTORS:
-        pred_dir = base / pred
-        if not pred_dir.exists():
-            continue
-
-        try:
-            pred_urdf = find_urdf(pred_dir, obj)
-        except FileNotFoundError:
-            continue
-
-        result = compare_urdf_files(gt_urdf, pred_urdf)
-
-        if print_detail:
-            print_result(pred, result)
-
-        summary_block[pred] = result_to_summary_dict(result)
-        detail_block[pred]  = result_to_detail_dict(result)
-
-    return {
-        "object": obj,
-        "gt_joint_count": gt_joint_count,
-        "summary": summary_block,
-        "details": detail_block,
-    }
+def _result_to_detail_row(r: ComparisonResult) -> dict:
+    """YAML 하단 상세용 데이터 변환."""
+    from compare_urdf import result_to_detail_dict
+    return result_to_detail_dict(r)
 
 
-# ---------------------------------------------------------------------------
-# 메인
-# ---------------------------------------------------------------------------
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description="URDF 비교 — config 기반 배치 실행")
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mapping", required=True, help="YAML 매핑 파일 경로")
+    parser.add_argument("--category", help="카테고리 이름 (출력 경로 자동 설정 및 필터링용)")
+    parser.add_argument("--no-save", action="store_true", help="파일 저장 안함")
     parser.add_argument(
-        "--config", "-c",
-        default=str(ROOT / "cfgs" / "config.yml"),
-        help="설정 파일 경로 (기본: cfgs/config.yml)",
-    )
-    parser.add_argument(
-        "--no-save",
-        action="store_true",
-        help="결과 저장 안 함 (터미널 출력만)",
+        "--out",
+        help="출력 YAML 경로 (기본: out/multi_report.yml 또는 out/{category}/multi_report.yml)",
     )
     args = parser.parse_args()
 
-    config_path = Path(args.config)
-    if not config_path.exists():
-        print(f"[ERROR] config 파일 없음: {config_path}")
+    # 출력 경로 결정
+    if args.out:
+        out_path = Path(args.out)
+    elif args.category:
+        out_path = ROOT / "out" / args.category / "multi_report.yml"
+    else:
+        out_path = ROOT / "out" / "multi_report.yml"
+
+    mapping_path = Path(args.mapping)
+    if not mapping_path.exists():
+        print(f"[ERROR] mapping 파일 없음: {mapping_path}")
         sys.exit(1)
 
-    with config_path.open("r", encoding="utf-8") as f:
-        cfg = yaml.safe_load(f)
+    print(f"\n{'═'*60}")
+    print(f"  Multi-Joint URDF 비교")
+    print(f"  mapping: {mapping_path}")
+    if args.category:
+        print(f"  filter : category='{args.category}'")
+    print(f"{'═'*60}\n")
 
-    categories = cfg.get("categories", [])
-    if not categories:
-        print("[ERROR] config 에 categories 가 없습니다.")
+    # mapping.yml 파싱
+    object_mappings = parse_mapping_yml(mapping_path)
+    if not object_mappings:
+        print("[ERROR] 유효한 object mapping 이 없습니다.")
         sys.exit(1)
 
-    out_dir = ROOT / "out"
-    out_dir.mkdir(exist_ok=True)
+    print(f"총 {len(object_mappings)} 개 object 발견.\n")
 
-    for cat_cfg in categories:
-        category: str = cat_cfg["name"]
-        objects: list[str] = cat_cfg.get("objects", [])
+    summary_section: dict = {}
+    detail_section: dict = {}
 
-        if not objects:
-            print(f"[SKIP] {category}: objects 목록이 비어있습니다.")
-            continue
-
-        print(f"\n{'═'*55}")
-        print(f"  Category: {category}  ({len(objects)} objects)")
-        print(f"{'═'*55}")
-
-        # 카테고리 단위 리포트 조합
-        report_objects: list[dict] = []
-        for obj in objects:
-            try:
-                obj_report = compare_object(category, obj)
-            except FileNotFoundError as e:
-                print(f"  [ERROR] {obj}: {e}")
+    processed_count = 0
+    for obj_map in object_mappings:
+        obj_name = obj_map.name
+        
+        # 카테고리 필터링: urdf_path 에 카테고리명이 포함되어 있는지 확인
+        if args.category:
+            if f"/{args.category}/" not in str(obj_map.gt.urdf_path):
                 continue
-            report_objects.append(obj_report)
 
-        if args.no_save:
-            continue
+        processed_count += 1
+        pred_names = list(obj_map.predictors.keys())
+        print(f"{'─'*60}")
+        print(f"  Object: {obj_name}  |  predictors: {pred_names}")
+        print(f"{'─'*60}")
 
-        summary_section: dict = {}
-        detail_section: dict = {}
-        for obj_data in report_objects:
-            obj = obj_data["object"]
-            summary_section[obj] = {
-                "gt_joint_count": obj_data["gt_joint_count"],
-                "predictors": obj_data["summary"]
-            }
-            detail_section[obj] = obj_data["details"]
+        # 비교 수행
+        results = compare_by_mapping(obj_map)   # {pred_name: [ComparisonResult]}
 
-        report = {
-            "meta": {
-                "category": category,
-                "generated_at": datetime.now(timezone.utc).isoformat(),
-                "config": str(config_path),
-                "predictors": PREDICTORS,
-            },
-            "summary": summary_section,
-            "details": detail_section,
+        obj_summary: dict = {}
+        obj_detail: dict = {}
+
+        for pred_name, pair_results in results.items():
+            obj_summary[pred_name] = [_result_to_summary_row(r) for r in pair_results]
+            obj_detail[pred_name]  = [_result_to_detail_row(r)  for r in pair_results]
+
+            # CLI 상세 출력
+            for r in pair_results:
+                icon = "✔" if r.type_match else "✘"
+                dist_val = r.origin_dist_m
+                dist_str = f"{dist_val:.4f}m" if not math.isnan(dist_val) else "N/A"
+                if r.type_gt == "prismatic":
+                    dist_str = f"({dist_str})"
+                angle_str = f"{r.axis_angle_deg:.2f}°" if not math.isnan(r.axis_angle_deg) else "N/A"
+                
+                print(f"  [{pred_name}] {r.joint_name_gt} ↔ {r.joint_name_pred}  "
+                      f"type={icon}  dist={dist_str:s}  angle={angle_str:s}")
+
+        summary_section[obj_name] = {
+            "gt_joint_count": obj_map.gt.joint_count,
+            "predictors": obj_summary
         }
+        detail_section[obj_name]  = obj_detail
 
-        # 카테고리별 출력 경로 (run_multi_compare 와 동일 패턴)
-        out_path = out_dir / category / "report.yml"
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        with out_path.open("w", encoding="utf-8") as f:
-            yaml.dump(
-                report,
-                f,
-                allow_unicode=True,
-                sort_keys=False,
-                default_flow_style=False,
-            )
-        print(f"\n  [저장] {out_path}")
+    print(f"\n총 {processed_count}개 오브젝트가 필터링/처리되었습니다.")
+
+    if processed_count == 0:
+        print("[WARN] 처리된 오브젝트가 없습니다. 리포트를 생성하지 않습니다.")
+        return
+
+    if args.no_save:
+        print("\n[INFO] --no-save 지정: 파일 저장 생략.")
+        return
+
+    # YAML 리포트 저장
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    report = {
+        "meta": {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "mapping": str(mapping_path),
+            "category_filter": args.category if args.category else "none",
+        },
+        "summary": summary_section,
+        "details": detail_section,
+    }
+
+    with out_path.open("w", encoding="utf-8") as f:
+        yaml.dump(report, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
+
+    print(f"\n  [저장] {out_path}")
 
 
 if __name__ == "__main__":

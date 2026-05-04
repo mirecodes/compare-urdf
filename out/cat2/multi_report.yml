@@ -1,20 +1,22 @@
 meta:
-  generated_at: '2026-03-30T10:26:59.827940+00:00'
-  mapping: cfgs/mapping_autofilled.yml
+  generated_at: '2026-04-02T16:25:41.202548+00:00'
+  mapping: cfgs/mapping.yml
+  category_filter: cat2
 summary:
   toilet:
     gt_joint_count: 4
     predictors:
       aa:
       - type_match: true
-        origin_dist_m: 0.1255
+        origin_dist_m: 0.0514
         axis_angle_deg: 0.0
       ours:
-      - type_match: true
-        origin_dist_m: 0.0032
-        axis_angle_deg: 2.36
+      - type_match: false
       - type_match: true
         origin_dist_m: 0.0308
+        axis_angle_deg: 2.36
+      - type_match: true
+        origin_dist_m: 0.0032
         axis_angle_deg: 2.36
       - type_match: true
         origin_dist_m: (0.0927)
@@ -24,8 +26,8 @@ summary:
     predictors:
       aa:
       - type_match: true
-        origin_dist_m: 0.2391
-        axis_angle_deg: 90.0
+        origin_dist_m: 0.5295
+        axis_angle_deg: 0.0
       ours:
       - type_match: true
         origin_dist_m: 0.01
@@ -41,7 +43,7 @@ summary:
     predictors:
       aa:
       - type_match: true
-        origin_dist_m: 0.5622
+        origin_dist_m: 0.6054
         axis_angle_deg: 0.0
       ours:
       - type_match: true
@@ -60,6 +62,19 @@ summary:
       - type_match: true
         origin_dist_m: 0.2694
         axis_angle_deg: 90.0
+      screw:
+      - type_match: true
+        origin_dist_m: 0.6769
+        axis_angle_deg: 9.82
+      - type_match: false
+        origin_dist_m: 0.5177
+        axis_angle_deg: 89.99
+      - type_match: true
+        origin_dist_m: 0.7483
+        axis_angle_deg: 89.68
+      - type_match: true
+        origin_dist_m: 0.1705
+        axis_angle_deg: 0.46
       ours:
       - type_match: true
         origin_dist_m: 0.0164
@@ -78,8 +93,15 @@ summary:
     predictors:
       aa:
       - type_match: true
-        origin_dist_m: 0.4583
+        origin_dist_m: 1.0158
         axis_angle_deg: 0.0
+      screw:
+      - type_match: true
+        origin_dist_m: 0.7649
+        axis_angle_deg: 0.01
+      - type_match: true
+        origin_dist_m: 0.6865
+        axis_angle_deg: 0.07
       ours:
       - type_match: true
         origin_dist_m: 0.0153
@@ -94,6 +116,10 @@ summary:
       - type_match: true
         origin_dist_m: (0.0000)
         axis_angle_deg: 0.0
+      screw:
+      - type_match: false
+        origin_dist_m: (0.2809)
+        axis_angle_deg: 89.64
       ours:
       - type_match: true
         origin_dist_m: 0.0072
@@ -113,43 +139,44 @@ details:
       - -1.5070204141621548e-17
       - 0.08623833640126834
       origin_pred_xyz:
-      - -0.08330599898099955
-      - -0.31934799933433533
+      - 0.08330599898099958
+      - 0.31934799933433533
       - 0.05950497668981593
       axis_gt_xyz:
       - 3.8285686989269494e-16
       - 1.0
       - 0.0
       axis_pred_xyz:
-      - -6.123233995736767e-17
-      - -1.0
+      - 1.8369701987210302e-16
+      - 1.0
       - 2.2440784777419078e-31
       axis_dot_abs: 1.0
       notes: []
     ours:
-    - joint_name_gt: joint_1
-      joint_name_pred: joint_1_2
-      type_gt: revolute
-      type_pred: revolute
+    - joint_name_gt: joint_0
+      joint_name_pred: null
+      type_gt: unknown
+      type_pred: missing
       origin_gt_xyz:
-      - 0.039362501568393805
-      - -1.5070204141621548e-17
-      - 0.08623833640126834
+      - 0.0
+      - 0.0
+      - 0.0
       origin_pred_xyz:
-      - 0.0423056701
-      - -0.000213782705
-      - 0.0876036963
+      - 0.0
+      - 0.0
+      - 0.0
       axis_gt_xyz:
-      - 3.8285686989269494e-16
-      - 1.0
+      - 0.0
+      - 0.0
       - 0.0
       axis_pred_xyz:
-      - -0.015925486405199495
-      - -0.9991509033262117
-      - -0.037998042912405945
-      axis_dot_abs: 0.999151
-      notes: []
-    - joint_name_gt: joint_2
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_dot_abs: .nan
+      notes:
+      - 'Joint missing: Pred joint ''None'' not found'
+    - joint_name_gt: joint_1
       joint_name_pred: joint_1_3
       type_gt: revolute
       type_pred: revolute
@@ -161,6 +188,28 @@ details:
       - 0.0700806833
       - 0.00585808732
       - 0.0880001275
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.015925486405199495
+      - -0.9991509033262117
+      - -0.037998042912405945
+      axis_dot_abs: 0.999151
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_1_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.039362501568393805
+      - -1.5070204141621548e-17
+      - 0.08623833640126834
+      origin_pred_xyz:
+      - 0.0423056701
+      - -0.000213782705
+      - 0.0876036963
       axis_gt_xyz:
       - 3.8285686989269494e-16
       - 1.0
@@ -195,27 +244,27 @@ details:
       notes: []
   faucet:
     aa:
-    - joint_name_gt: joint_0
+    - joint_name_gt: joint_3
       joint_name_pred: faucet_base_to_spout
       type_gt: continuous
       type_pred: revolute
       origin_gt_xyz:
-      - 0.18586969420261676
-      - -7.116148933032624e-17
-      - -0.40516169420261655
+      - 0.18586980870379802
+      - 0.0015881912962019008
+      - 7.11615331678901e-17
       origin_pred_xyz:
-      - 0.34355899691581715
-      - 0.004660999402403658
+      - -0.34355899691581715
+      - -0.0046609994024036155
       - -0.22541399574279772
       axis_gt_xyz:
       - -3.8285686989269494e-16
-      - -1.0
-      - 0.0
-      axis_pred_xyz:
-      - -6.123233995736767e-17
-      - 3.0942020925592465e-32
+      - 1.4657938282403194e-31
       - 1.0
-      axis_dot_abs: 0.0
+      axis_pred_xyz:
+      - 6.123233995736767e-17
+      - -3.844081983890174e-32
+      - 1.0
+      axis_dot_abs: 1.0
       notes: []
     ours:
     - joint_name_gt: joint_0
@@ -295,16 +344,16 @@ details:
       - 1.1255555235731253e-17
       - 0.01915017226644359
       origin_pred_xyz:
-      - -0.4283710041046148
-      - -0.5207340040206911
+      - 0.42837100410461487
+      - 0.5207340040206911
       - -0.3769639906883238
       axis_gt_xyz:
       - 3.8285686989269494e-16
       - 1.0
       - 0.0
       axis_pred_xyz:
-      - -6.123233995736767e-17
-      - -1.0
+      - 1.8369701987210302e-16
+      - 1.0
       - 2.2440784777419078e-31
       axis_dot_abs: 1.0
       notes: []
@@ -398,6 +447,96 @@ details:
       - -6.123233995736767e-17
       - 6.123233995736767e-17
       axis_dot_abs: 0.0
+      notes: []
+    screw:
+    - joint_name_gt: joint_0
+      joint_name_pred: joint_4
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.46634899999999974
+      - -0.22824362703686701
+      - 0.17569499999999968
+      origin_pred_xyz:
+      - 0.6343
+      - 0.0267
+      - -0.48
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - 1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.12729503495399053
+      - 0.9853615667216203
+      - -0.1133955770917716
+      axis_dot_abs: 0.985362
+      notes: []
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_6
+      type_gt: revolute
+      type_pred: prismatic
+      origin_gt_xyz:
+      - -0.02633372691437207
+      - 0.48697599999999985
+      - 0.17569499999999982
+      origin_pred_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis_gt_xyz:
+      - -1.0
+      - 3.8285686989269494e-16
+      - -3.8285686989269494e-16
+      axis_pred_xyz:
+      - -0.0001999999710000063
+      - 0.0004999999275000157
+      - -0.9999998550000314
+      axis_dot_abs: 0.0002
+      notes:
+      - 'Type mismatch: gt=''revolute'', pred=''prismatic'''
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.460907
+      - 0.05794596831251137
+      - 0.1756949999999995
+      origin_pred_xyz:
+      - 0.0017
+      - -0.3436
+      - -0.4125
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - -1.0
+      - 0.0
+      axis_pred_xyz:
+      - -0.9999841953746872
+      - -0.005599911494098248
+      - 0.0004999920976873437
+      axis_dot_abs: 0.0056
+      notes: []
+    - joint_name_gt: joint_3
+      joint_name_pred: joint_1
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.09461069595392692
+      - -0.44027999999999995
+      - 0.1756950000000002
+      origin_pred_xyz:
+      - 0.0027
+      - -0.3077
+      - 0.2829
+      axis_gt_xyz:
+      - 1.0
+      - -3.8285686989269494e-16
+      - 3.8285686989269494e-16
+      axis_pred_xyz:
+      - -0.999968296507731
+      - -0.007899749542411075
+      - 0.000999968296507731
+      axis_dot_abs: 0.999968
       notes: []
     ours:
     - joint_name_gt: joint_0
@@ -499,18 +638,63 @@ details:
       - 0.4434867707409101
       - 0.811119
       origin_pred_xyz:
-      - 0.24479700350761485
-      - 0.5710790076255797
+      - -0.24479700350761494
+      - -0.5710790076255797
       - -0.8103809871673583
       axis_gt_xyz:
       - 3.8285686989269494e-16
       - -1.4657938282403194e-31
       - -1.0
       axis_pred_xyz:
-      - -6.123233995736767e-17
-      - 3.0942020925592465e-32
+      - 6.123233995736767e-17
+      - -3.844081983890174e-32
       - 1.0
       axis_dot_abs: 1.0
+      notes: []
+    screw:
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.21105892222321426
+      - -0.4963420826169706
+      - 0.811119
+      origin_pred_xyz:
+      - 0.4994
+      - -0.2128
+      - 0.0
+      axis_gt_xyz:
+      - -3.8285686989269494e-16
+      - 1.4657938282403194e-31
+      - 1.0
+      axis_pred_xyz:
+      - 0.0
+      - 9.999999950000001e-05
+      - -0.999999995
+      axis_dot_abs: 1.0
+      notes: []
+    - joint_name_gt: joint_2
+      joint_name_pred: joint_2
+      type_gt: revolute
+      type_pred: revolute
+      origin_gt_xyz:
+      - -0.19533683083987122
+      - 0.4434867707409101
+      - 0.811119
+      origin_pred_xyz:
+      - 0.4418
+      - 0.1879
+      - -0.0006
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - 0.0011999991120009855
+      - 0.0001999998520001643
+      - 0.9999992600008214
+      axis_dot_abs: 0.999999
       notes: []
     ours:
     - joint_name_gt: joint_1
@@ -568,19 +752,43 @@ details:
       - 0.0
       - 0.0
       origin_pred_xyz:
-      - 3.0616169978683824e-18
-      - -1.5471010462796244e-33
+      - -3.0616169978683824e-18
+      - 1.922040991945086e-33
       - -0.05
       axis_gt_xyz:
       - 3.8285686989269494e-16
       - -1.4657938282403194e-31
       - -1.0
       axis_pred_xyz:
-      - -6.123233995736767e-17
-      - 3.0942020925592465e-32
+      - 6.123233995736767e-17
+      - -3.844081983890174e-32
       - 1.0
       axis_dot_abs: 1.0
       notes: []
+    screw:
+    - joint_name_gt: joint_1
+      joint_name_pred: joint_1
+      type_gt: prismatic
+      type_pred: revolute
+      origin_gt_xyz:
+      - 0.0
+      - 0.0
+      - 0.0
+      origin_pred_xyz:
+      - -0.2809
+      - 0.0001
+      - 0.351
+      axis_gt_xyz:
+      - 3.8285686989269494e-16
+      - -1.4657938282403194e-31
+      - -1.0
+      axis_pred_xyz:
+      - -0.007599629717062835
+      - 0.9999512785608994
+      - -0.006299693054933666
+      axis_dot_abs: 0.0063
+      notes:
+      - 'Type mismatch: gt=''prismatic'', pred=''revolute'''
     ours:
     - joint_name_gt: joint_0
       joint_name_pred: joint_1_3

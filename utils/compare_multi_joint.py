@@ -21,7 +21,7 @@ import yourdfpy
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "utils"))
 
 from compare_urdf import (
     JointInfo,

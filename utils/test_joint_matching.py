@@ -4,7 +4,7 @@ from pathlib import Path
 
 # Add scripts directory to path
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "utils"))
 
 from compare_urdf import JointInfo, compare_single_joint, _line_dist
 
